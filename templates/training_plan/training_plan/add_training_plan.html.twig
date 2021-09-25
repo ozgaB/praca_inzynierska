@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% use "menu_trainer_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content_less_margin">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Dodaj nowy plan treningowy</h2>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  {{ form_start(form) }}
+                    {{ form_row(form.planName) }}
+                    {{ form_row(form.description) }}
+                  {{ form_end(form) }}
+                </div>
+                <a href="{{ path("show_training_plan_list_trainer")}}" class="btn btn-dark" role="button">Wyjdź bez zapisywania!</a>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}

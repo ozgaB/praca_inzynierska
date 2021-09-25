@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% use "menu_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+          <div class="main_content">
+            <div class="center_content">
+              <div class="grid_panel">
+                <div class="login_panel">
+                       <h1 class="login_panel_title">Wskakuj!</h1>
+                        <form method="post" class="login_form" action="{{ path("login") }}">
+                      <input type="email" id="login" class="custom_input fadeIn second" name="_username" placeholder="login">
+                      <input type="password" id="password" class="custom_input fadeIn third" name="_password" placeholder="hasło">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                      </div>
+                      <input type="submit" class="fadeIn fourth" value="Zaloguj">
+                      <input type="hidden" name="{{ path('user_home_page')}}" value="/account" />
+                      <div class="text-danger">
+                        {{ error }}
+                      </div>
+                      </form>
+                      <div class="form_footer">
+                      <a class="underlineHover" href="#">Zapomniałeś hasła?</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}

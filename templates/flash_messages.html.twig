@@ -1,0 +1,12 @@
+        {% block content %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success custom_alert" id="flashMessage">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger custom_alert" id="flashMessage">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% endblock %}

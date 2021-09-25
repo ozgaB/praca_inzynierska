@@ -1,0 +1,3 @@
+validator:
+  email:
+    unique: 'Taki email już istnieje'

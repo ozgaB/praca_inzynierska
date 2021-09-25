@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+{% use "menu_trainer_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Tu znajduje się lista twoich uczestników bez dostępu do planu {{ trainingPlan.planName }}</h2>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <table class="table">
+                    <tr>
+                      <th>Imię i Nazwisko</th>
+                      <th>Akcje</th>
+                    </tr>
+                    {% if participantList is empty %}
+                    <td colspan="3"><h2 class="text-danger">Aktualnie nie posiadasz żadnych uczestników bez dostępu do planu!</h2></td>                      
+                    {% else %}
+                    {% for user in participantList %}
+                    <tr>
+                      <td>{{ user.firstName }} {{ user.lastName }}</td>
+                      <td><a href="{{ path("add_access_to_training_plan", {'participantUser': user.idUser, 'trainingPlan': trainingPlan.id })}}" class="text-dark">Dodaj dostęp<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    </table>
+                </div>
+            </div>
+            <div class="user_trainings_list">
+            <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+              <h2>Tu znajduje się lista uczestników posiadających dostęp do planu {{ trainingPlan.planName }}</h2>
+            </div>
+            <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+              <table class="table">
+                <tr>
+                  <th>Imię i Nazwisko</th>
+                  <th>Akcje</th>
+                </tr>
+                {% if accessList is empty %}
+                <td colspan="3"><h2 class="text-danger">Aktualnie żaden uczestnik nie posiada dostępu do tego planu!</h2></td>
+                {% else %}
+                {% for access in accessList %}
+                <tr>
+                  <td>{{ access.firstName }} {{ access.lastName }}</td>
+                  <td><a href="{{ path("remove_access_for_training_plan", {'trainingPlanAccess': access.idAccess, 'trainingPlan': trainingPlan.id })}}" class="text-dark">Odbierz dostęp<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+                </table>
+            </div>
+            </div>
+        </div>
+          </div>
+        </div>
+        </div>
+{% endblock %}

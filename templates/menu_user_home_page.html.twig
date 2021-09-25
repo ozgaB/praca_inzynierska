@@ -1,0 +1,47 @@
+ {% block menu %}
+        <div class="nav-bar" id="nav-bar">
+          <div class="nav-logo">
+              <a href="{{ path("home_page")}}">Workout with <span>Me</span></a>
+          </div>
+          <div class="nav-links" id="nav-links">
+              <i class="fa fa-times fa-2x" onclick="closeMenu()"></i>
+              <div class="nav-link">
+                <a href="{{ path("logout")}}">{{('menu.logout')|trans}}</a>
+              </div>
+              <div class="nav-link" id="hidden">
+                <a href="#">Profil</a>
+              </div>
+              <div class="nav-link" id="hidden">
+                <a href="#">Dieta</a>
+              </div>
+                <div class="nav-link" id="hidden">
+                  <a href="{{ path("show_training_plan_list_for_user")}}">Trening</a>
+                </div>
+                <div class="nav-link" id="hidden">
+                  <a href="{{ path("user_trainers")}}">Trener</a>
+                </div>
+                <div class="nav-link" id="hidden">
+                  <a href="#">Dziennik Progresu</a>
+                </div>
+                <div class="nav-link" id="hidden">
+                  <a href="#">Lista Zakupów</a>
+                </div>   
+              <div class="nav-link" id="hidden">
+                <a href="{{ path("logout")}}">{{('menu.logout')|trans}}</a>
+              </div>         
+          </div>
+          <i class="fa fa-bars fa-2x" onclick="showMenu()"></i>
+        </div>
+        <div class="nav-user" id="nav-user">
+          <ul>
+            <li class="active"><a href="#">Profil</a></li>
+            <li><a href="#">Dieta</a>
+            </li>
+            <li><a href="{{ path("show_training_plan_list_for_user")}}">Trening</a></li>
+            <li><a href="{{ path("user_trainers")}}">Trener</a></li>
+            <li><a href="#">Dziennik progresu</a></li>
+            <li><a href="#">Lista zakupów</a></li>
+
+          </ul>
+        </div>
+{% endblock %}

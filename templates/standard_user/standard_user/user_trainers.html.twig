@@ -1,0 +1,111 @@
+{% extends "base.html.twig" %}
+{% use "menu_user_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_baner">
+                <div class="user_baner_text">
+                  <h1>Nasi trenerzy są gotowi o każdej porze!</h1><span>Wybierz swojego trenera już teraz!</span><a href="#trainers_list" class="btn btn-success ml-4 " role="button">Sprawdź naszych trenerów!</a></div>
+              </div>
+              <div class="actual_trainer">
+                <div class="container">
+                    <div class="row bg-black mt-5 mb-5">
+                        <div class="col-md-4">
+                          <dvi class="row">
+                              <div class="col-md-12 pt-4">
+                                <h1>Twój aktualny trener</h1>
+                                <i class="fas fa-arrow-alt-circle-right fa-8x"></i>
+                              </div>
+                          </dvi>
+                        </div>
+                        <div class="col-md-4">
+                          <dvi class="row text-center">
+                              <div class="col-md-12 pt-4">
+                              {% if actualTrainer is empty %}
+                               <h2><strong class="text-danger">Trener nie został wybrany!</strong></h2>
+                              {% else %}
+                               <h2><strong>{{actualTrainer.firstName}} {{actualTrainer.lastName}}</strong></h2>
+                              {% endif %}
+                              </div>
+                          </dvi>
+                          {% if actualTrainer is empty %}
+                        </div>
+                          {% else %}
+                          <dvi class="row text-center">
+                              <div class="col-md-12">
+                                  <strong>Trener personalny, fizjoterapeuta</strong>
+                              </div>
+                          </dvi>
+                          <dvi class="row">
+                              <div class="col-md-6 pt-3">
+                                  <h5><strong>O mnie:</strong></h5>
+                              </div>
+                          </dvi>
+                          <dvi class="row text-justify">
+                              <div class="col-md-12">
+                                  <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sagittis aliquam nibh, ut placerat purus ultricies eu. Nunc euismod rutrum auctor. Aliquam commodo dui eu nunc imperdiet hendrerit sed eget ante.</h6>
+                              </div>
+                          </dvi>
+                          <div class="row">
+                              <div class="col-md-12">
+                                <a href="#"><i class="fab fa-facebook-square fa-2x"></i></a>
+                                <a href="#"><i class="fab fa-instagram-square fa-2x"></i></a>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                <a href="{{ path("remove_participant_by_user", {'user': user.id, 'actualTrainer': actualTrainer.idTrainer })}}" class="btn-xs btn-dark" role="button">Rezygnuj i odepnij!</a>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                          <img src="../images/trainer_profile.jpg" class="img-thumbnail mt-4 ml-2 mb-2 mr-2"/>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid_panel">
+              <div class="trainers_list">
+                <table class="table">
+                  <tr>
+                    <th>Imię i Nazwisko</th>
+                    <th>O mnie</th>
+                    <th colspan="2">Akcje</th>
+                  </tr>
+                  {% if trainers is empty %}
+                    <td colspan="4"><h2 class="text-danger">Aktualnie brak trenerów do wyboru!</h2></td> 
+                  {% else %}
+                  {% if actualTrainer is empty %}
+                    {% for trainer in trainers %}
+                      <tr>
+                        <td>{{trainer.firstName}} {{trainer.lastName}}</td>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sagittis aliquam nibh, ut placerat purus ultricies eu. Nunc euismod rutrum auctor. Aliquam commodo dui eu nunc imperdiet hendrerit sed eget ante.</td>
+                        {% if trainer.idTrainer is null %}
+                        <td><a href="{{ path("send_invitation", {'user': trainer.id })}}" class="btn btn-dark" role="button">Zapytaj o udział</a></td> 
+                        {% else %}
+                        <td><h4><span class="badge badge-dark">Już wysłano zaproszenie do tego trenera!</span></h4></td>                          
+                        {% endif %}
+                      </tr>
+                    {% endfor %}                    
+                  {% else %}
+                    {% for trainer in trainers %}
+                      <tr>
+                        <td>{{trainer.firstName}} {{trainer.lastName}}</td>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sagittis aliquam nibh, ut placerat purus ultricies eu. Nunc euismod rutrum auctor. Aliquam commodo dui eu nunc imperdiet hendrerit sed eget ante.</td>
+                        <td><h4><span class="badge badge-dark">Odepnij bieżącego trenera by wysłac nowe zaproszenia</span></h4></td> 
+                      </tr>
+                    {% endfor %}                    
+                  {% endif %}
+
+                  {% endif %}
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}

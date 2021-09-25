@@ -1,0 +1,181 @@
+{% extends "base.html.twig" %}
+{% use "menu_user_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_baner">
+                <div class="user_baner_text">
+                  <h1>Bartosz Ozga</h1><span>Witamy cię w naszej aplikacji tu znajdziesz wszystko by osiągnąć swój cel!</span>                </div>
+              </div>
+            </div>
+            <div class="grid_panel_center">
+              <div class="user_profile">
+                <div class="text-center">
+                  <img src="../images/user_profile.jpg" class="mt-5 mb-4 center img-thumbnail" height="300px" width="200px">
+                </div>
+                <div class="text-center">
+                  <h3 class="mt-2">Bartosz Ozga</h3> <span class="mt-1 clearfix">ozgabartosz.og@gmail.com</span>
+                  <hr class="line">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <h5>Wiek:</h5>
+                      <h5>23</h5>
+                    </div>
+                    <div class="col-md-4">
+                      <h5>Wzrost:</h5>
+                      <h5>182</h5>
+                    </div>
+                    <div class="col-md-4">
+                      <h5>Aktualna waga:</h5>
+                      <h5>85 kg</h5>
+                    </div>
+                  </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="text-center">
+                      <button type="button" class="btn btn-outline-success btn-sm mt-4 mb-4">Kalkulator BMI</button>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5>Waga docelowa</h5>
+                    <h5 class="text-success">80kg<h5/>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Tempo chudnięcia</h5>
+                    <h5 class="text-success">0.5kg/Tydzień</h5>
+                  </div>
+                </div>
+                <hr class="line">
+                  <div class="row">
+                    <div class="col-md-12">
+                        <span class="mt-3 mb-2 clearfix">Dane kontaktowe</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <span class="mt-3 clearfix">Telefon:</span>
+                        <span class="mt-3 clearfix">698142035</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="mt-3 clearfix">Adres zamieszkania:</span>
+                        <span class="mt-3 clearfix">Bujwida 22 Wrocław</span>
+                    </div>
+                  </div>
+                  <hr class="line" />
+                  <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3">
+                      <h5>Twój trener:</h5>
+                    </div>
+                    <div class="col-md-3">
+                      <a href="#" class="text-success">Bartosz Ozga<a/>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-outline-success btn-sm mt-4 mb-4">Zarządzaj trenerami</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="edit_buttons">
+                  <input type="submit" class="fadeIn fourth" value="Otwórz konfigurację profilu" id="openEdit" onclick="openEdit()">
+                  <input type="submit" class="fadeIn fourth" value="Zamknij konfigurację profilu" id="closeEdit" onclick="closeEdit()">
+                </div>
+            </div>
+          </div>
+            <div class="grid_panel_center" id="edit_menu">
+              <div class="user_profile">
+                <div class="text-center mt-5">
+                  <h3 class="mt-2">Dane osobowe:</h3>
+                  <hr class="line">
+                  <form>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-floating ml-2">
+                          <input type="text" class="form-control" id="floatingInput" placeholder="Imię">
+                          <label for="floatingInput">Imię</label>
+                        </div>
+                        </div>
+                        <div class="col">
+                          <div class="form-floating mr-2">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
+                            <label for="floatingInput">Nazwisko</label>
+                          </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <div class="form-floating ml-2 mt-4">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Imię">
+                            <label for="floatingInput">Telefon</label>
+                          </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-floating mr-2 mt-4">
+                              <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
+                              <label for="floatingInput">Email</label>
+                              <small class="mt-2">Wymagane jest potwierdzenie Email</small>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                              <input type="submit" value="Ustaw nowe dane"></input>
+                            </div>
+                        </div>
+                  </form>
+                  <form>
+                        <div class="text-center mt-2">
+                          <h3 class="mt-2">Hasło:</h3>
+                          <hr class="line mb-2">
+                          <div class="row-xs-2">
+                            <div class="col text-center">
+                              <div class="form-floating mt-4">
+                                <input type="password" id="actual_password" class="form-control" name="actual_password" placeholder="Aktualne hasło" onkeyup='check();'>
+                                <label for="actual_password">Aktualne hasło</label>
+                                <div class="invalid-feedback"></div>
+                              </div>
+                                <div class="form-floating mt-4">
+                                  <input type="password" id="password" class="form-control" name="password" placeholder="Nowe hasło" onkeyup='check();'>
+                                  <label for="password">Nowe hasło</label>
+                                  <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="form-floating mt-4">
+                                  <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Potwierdź nowe hasło" onkeyup='check();'>
+                                  <label for="confirm_password">Potwierdź nowe hasło</label>
+                                  <div class="invalid-feedback"></div>
+                                  <div class="password_match" id='message'></div>
+                                </div>
+                                <input type="submit" value="Ustaw hasło" class="mt-3"></input>
+                                </div>
+                            </div>
+                        </div>
+                  </form>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}
+{% block custom_javascript %}
+<script>
+          function openEdit(){
+            document.getElementById('openEdit').style.display = "none";
+            document.getElementById('closeEdit').style.display = "block";
+            document.getElementById('edit_menu').style.display = "grid";
+          }
+          function closeEdit(){
+            document.getElementById('openEdit').style.display = "block";
+            document.getElementById('closeEdit').style.display = "none";
+            document.getElementById('edit_menu').style.display = "none";
+          }
+</script>
+{% endblock %}

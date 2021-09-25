@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+{% use "menu_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+          <div class="main_content">
+            <div class="center_content">
+              <div class="grid_panel">
+                <div class="login_panel">
+                       <h1 class="login_panel_title">Zapisz się!</h1>
+                    {{ form_start(form, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                        {{ form_widget(form.email, {'attr': {'class': 'custom_input', 'name': 'email', 'placeholder': 'email@example.com', 'id': 'email'}})}}
+                        {{ form_widget(form.firstName, {'attr': {'class': 'custom_input', 'name': 'firstName', 'placeholder': 'first Name', 'id': 'firstName'}})}}
+                        {{ form_widget(form.lastName, {'attr': {'class': 'custom_input', 'name': 'lastName', 'placeholder': 'lastName', 'id': 'lastName'}})}}
+                        {{ form_widget(form.password.first, {'attr': {'class': 'custom_input', 'name': 'password', 'placeholder': 'password', 'onKeyUp': 'check();'}})}}
+                        {{ form_widget(form.password.second, {'attr': {'class': 'custom_input', 'name': 'confirm_password', 'placeholder': 'confirm_password','onKeyUp': 'check();' }})}}
+                        {{ form_widget(form.role)}}
+                        {{ form_widget(form.save,{'attr': {'class': 'btn-lg btn-dark text-center pl-3 pr-3 mt-4', 'value': 'Zarejestruj się!', 'type': 'submit'}})}}
+                      <div class="password_match" id='message'></div>
+                      <input type="hidden" name="form[_token]" value="{{ form._token.vars.value }}" />
+                    {{ form_end(form)}}
+                    <div class="form_footer">
+                      <div class="text-danger">
+                        {{ form_errors(form.email) }}
+                        {{ form_errors(form.firstName) }}
+                        {{ form_errors(form.lastName) }}
+                        {{ form_errors(form.password.first) }}
+                        {{ form_errors(form.password.second) }}                    
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock %}
+{% block custom_javascript %}
+        <script>
+          var check = function() {
+            if (((document.getElementById('register_user_password_first').value)
+            && (document.getElementById('register_user_password_second').value)) === null) {
+              document.getElementById('message').style.display = 'none';
+            } 
+            if (document.getElementById('register_user_password_first').value ==
+            document.getElementById('register_user_password_second').value) {
+              document.getElementById('message').style.color = 'green';
+              document.getElementById('message').innerHTML = 'Hasła są identyczne';
+            } else {
+              document.getElementById('message').style.color = 'red';
+              document.getElementById('message').innerHTML = 'Hasła nie pasują do siebie';
+            }
+          }
+        </script>
+{% endblock %}

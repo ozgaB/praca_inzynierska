@@ -1,0 +1,4 @@
+menu:
+  login: 'Zaloguj'
+  register: 'Zarejestruj'
+  logout: 'Wyloguj'

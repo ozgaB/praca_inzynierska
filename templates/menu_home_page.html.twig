@@ -1,0 +1,35 @@
+        {% block menu %}
+        <div class="nav-bar" id="nav-bar">
+          <div class="nav-logo">
+              <a href="{{ path("home_page")}}">Workout with <span>Me</span></a>
+          </div>
+          <div class="nav-links" id="nav-links">
+              <i class="fa fa-times fa-2x" onclick="closeMenu()"></i>
+              <div class="nav-link">
+              {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path("login")}}">{{('menu.login')|trans}}</a>
+              {% endif %}
+              </div>
+              <div class="nav-link">
+              {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path("register")}}">{{('menu.register')|trans}}</a>
+              {% endif %} 
+              </div>
+              <div class="nav-link">
+              {% if is_granted('ROLE_USER') %}
+                <a href="{{ path("user_home_page")}}">{{('menu.profile')|trans}}</a>
+              {% endif %}
+              {% if is_granted('ROLE_TRAINER') %}
+                <a href="{{ path("trainer_home_page")}}">{{('menu.profile')|trans}}</a>
+              {% endif %}
+              </div>
+              <div class="nav-link">
+              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path("logout")}}">{{('menu.logout')|trans}}</a>
+              {% endif %}
+              </div>
+          </div>
+          <i class="fa fa-bars fa-2x" onclick="showMenu()"></i>
+        </div>
+        {% endblock %}
+

@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% use "menu_trainer_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Tu znajduje się lista użytkowników chcących dołączyć do twojej społeczności</h2>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <table class="table">
+                    <tr>
+                      <th>Imię i Nazwisko</th>
+                      <th colspan="2">Akcje</th>
+                    </tr>
+                    {% if invitationList is empty %}
+                    <td colspan="3"><h2 class="text-danger">Aktualnie brak nowych zaproszeń!</h2></td>                      
+                    {% else %}
+                    {% for user in invitationList %}
+                    <tr>
+                      <td>{{ user.firstName }} {{ user.lastName }}</td>
+                      <td><a href="{{ path("add_participant",{ 'user': user.idUser, 'invitation': user.id_invitation })}}" class="text-dark">Dodaj<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                      <td><a href="#" class="text-dark">Odmów<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    </table>
+                </div>
+            </div>
+            <div class="user_trainings_list">
+            <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+              <h2>Tu znajduje się lista aktualnie prowadzonych uczestników</h2>
+            </div>
+            <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+              <table class="table">
+                <tr>
+                  <th>Imię i Nazwisko</th>
+                  <th colspan="2">Akcje</th>
+                </tr>
+                {% if participantList is empty %}
+                <td colspan="3"><h2 class="text-danger">Aktualnie brak uczestników!</h2></td>
+                {% else %}
+                {% for participant in participantList %}
+                <tr>
+                  <td>{{ participant.firstName }} {{ participant.lastName }}</td>
+                  <td><a href="#" class="text-dark">Pokaż profil<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                  <td><a href="{{ path("remove_participant",{ 'user': participant.idUser })}}" class="text-dark">Odepnij<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+                </table>
+            </div>
+            </div>
+        </div>
+          </div>
+        </div>
+        </div>
+{% endblock %}
