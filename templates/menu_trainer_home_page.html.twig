@@ -34,5 +34,11 @@
             <li><a href="{{ path("show_training_plan_list_trainer") }}">Treningi</a></li>
             <li><a href="{{ path("trainer_users")}}">Uczestnicy<br> <small>Lista próśb</small></a></li>
           </ul>
+            <li class="">
+            <div class="justify-content-center mr-5">
+            {{ render(controller('App\\Controller\\NotificationController\\NotificationController::renderInvitationNotificationForTrainer')) }}
+            {{ render(controller('App\\Controller\\NotificationController\\NotificationController::renderActiveParticipantsNotificationForTrainer')) }}
+            </div>
+            </li>
         </div>
 {% endblock %}

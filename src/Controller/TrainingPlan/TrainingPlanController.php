@@ -79,7 +79,7 @@ class TrainingPlanController extends AbstractController
     {
 
         $trainingPlanDay = new TrainingPlanDay();
-        $trainingPlanDay->setIdTrainingPlan($trainingPlan->getId());
+        $trainingPlanDay->setTrainingPlan($trainingPlan);
         $form = $this->createForm(TrainingPlanDayType::class, $trainingPlanDay);
         $form->handleRequest($request);
         $trainingPlanCRUDResult = $trainingPlanCRUD->addTrainingPlanDay($form);
@@ -102,40 +102,46 @@ class TrainingPlanController extends AbstractController
         ];
     }
         /**
-     * @Route("/update_training_plan_day", name="update_training_plan_day")
+     * @Route("/update_training_plan_day/{trainingPlan}/day/{trainingPlanDay}", name="update_training_plan_day")
      * @Template()
      */
-    public function updateTrainingPlanDay(Request $request, EntityManagerInterface $entityManager)
+    public function updateTrainingPlanDay(
+        Request $request,
+        EntityManagerInterface $entityManager, 
+        TrainingPlanDay $trainingPlanDay, 
+        TrainingPlanDayRepository $trainingPlanDayRepository,
+        TrainingPlanList $trainingPlan,
+        TrainingPlanCRUD $trainingPlanCRUD
+        )
     {
-
-        $trainingPlanDay = new TrainingPlanDay();
-        $trainingPlanDay->setDayName('dupa');
-        $trainingPlanDay->setIdTrainingPlan(1);
+        $nextDayId = $trainingPlanDayRepository->getNextDay($trainingPlanDay->getId(),$trainingPlan->getId());
+        $previousDayId = $trainingPlanDayRepository->getPreviousDay($trainingPlanDay->getId(),$trainingPlan->getId());
+        $nextDay = $trainingPlanDayRepository->findOneBy(['id' => $nextDayId]);
+        $previousDay = $trainingPlanDayRepository->findOneBy(['id' => $previousDayId]);
+        $currentTrainingPlanDay = $trainingPlanDay;
         $form = $this->createForm(TrainingPlanDayType::class, $trainingPlanDay);
         $form->handleRequest($request);
-
-        $originalExercise = new ArrayCollection();
-
-        //pobiera i dodaje do kolekcji
-        foreach ($trainingPlanDay->getTrainingPlanExercise() as $trainingPlanExercise)
+        $trainingPlanCRUDResult = $trainingPlanCRUD->updateTrainingPlanDay($form, $trainingPlanDay);
+        if($trainingPlanCRUDResult['result'] == 'success')
         {
-            $originalExercise->add($trainingPlanExercise);
-        }
+            if ($form->getClickedButton() === $form->get('saveAndAdd')){
+                $this->addFlash('success', 'Brawo edytowałeś dzień treningowy, wypełniaj dalej!');
+                return $this->redirectToRoute('add_training_plan_day', ['trainingPlan' => $trainingPlan->getId() ]);
+            } else {
+                $this->addFlash('success', 'Brawo edytowałeś plan treningowy!');
+                return $this->redirectToRoute('show_training_plan_list_trainer');
+            }
+        } elseif ($trainingPlanCRUDResult['result'] === 'faild') {
+            $this->addFlash('danger', 'Nie udało się dodać dnia treningowego!');
+        } else {
 
-        if($form->isSubmitted()){
-                        //sprawdza czy orginalna tablica nadal zawiera stare elementy
-                        foreach ($originalExercise as $exercise)
-                        {
-                            if(false === $trainingPlanDay->getTrainingPlanExercise()->contains($exercise))
-                            {
-                                $entityManager->remove($exercise);
-                            }
-                        }
-            $entityManager->persist($trainingPlanDay);
-            $entityManager->flush();
         }
         return [
-            'form' => $form->createView()
+            'trainingPlan' => $trainingPlan,
+            'currentTrainingPlanDay' => $currentTrainingPlanDay,
+            'nextDay' => $nextDay,
+            'previousDay' => $previousDay,
+            'form' => $form->createView(),
         ];
     }
 
@@ -200,13 +206,35 @@ class TrainingPlanController extends AbstractController
      */
     public function showTrainingPlanDay(TrainingPlanDayRepository $trainingPlanDayRepository, TrainingPlanDay $trainingPlanDay, TrainingPlanListRepository $trainingPlanListRepository,TrainingPlanList $trainingPlan)
     {
-        $days = $trainingPlanListRepository->getDaysByTrainingPlanId($trainingPlan->getId());
-        $trainingPlanDays = $trainingPlanDayRepository->getTrainingPlanDayById($trainingPlanDay);
+        $trainingPlanListDays = $trainingPlanListRepository->getDaysByTrainingPlanId($trainingPlan->getId());
+        $trainingPlanExercises = $trainingPlanDayRepository->getTrainingPlanDayById($trainingPlanDay);
+        $currentTrainingPlanDay = $trainingPlanDay;
+        $nextDayId = $trainingPlanDayRepository->getNextDay($trainingPlanDay->getId(),$trainingPlan->getId());
+        $previousDayId = $trainingPlanDayRepository->getPreviousDay($trainingPlanDay->getId(),$trainingPlan->getId());
+        $nextDay = $trainingPlanDayRepository->findOneBy(['id' => $nextDayId]);
+        $previousDay = $trainingPlanDayRepository->findOneBy(['id' => $previousDayId]);
 
         return [
-            'days' => $days,
-            'trainingPlanDays' => $trainingPlanDays
+            'nextDay' => $nextDay,
+            'previousDay' => $previousDay,
+            'currentDay' => $currentTrainingPlanDay,
+            'trainingPlan' => $trainingPlan,
+            'trainingPlanListDays' => $trainingPlanListDays,
+            'trainingPlanExercises' => $trainingPlanExercises,
         ];
+    }
+    /**
+     * @Route("/remove_training_plan/{trainingPlan}", name="remove_training_plan")
+     */
+    public function removeTrainingPlan(TrainingPlanCRUD $trainingPlanCRUD,TrainingPlanList $trainingPlan)
+    {
+        if('success' === $trainingPlanCRUD->removeTrainingPlanWithAllDependencies($trainingPlan))
+        {
+            $this->addFlash('success', 'Usunąłeś ten plan!');
+            return $this->redirectToRoute('show_training_plan_list_trainer');
+        }
+       $this->addFlash('danger', 'Nie udało się usunąć tego planu!');
+       return $this->redirectToRoute('show_training_plan_list_trainer');
     }
 }
 ?>

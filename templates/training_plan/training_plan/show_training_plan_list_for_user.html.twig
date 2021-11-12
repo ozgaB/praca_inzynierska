@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% use "menu_trainer_home_page.html.twig" %}
+{% use "menu_user_home_page.html.twig" %}
 {% block content %}
         <div class="background" id="background">
                 {% include "flash_messages.html.twig" %}
@@ -19,6 +19,11 @@
                       <th>Data publikacji</th>
                       <th colspan="2">Akcje</th>
                     </tr>
+                    {% if trainingPlanList is empty %}
+                    <tr>
+                      <td colspan="7"><h2 class="text-danger">Twój trener nie udostępnił ci jeszcze rzadnych planów!</h2></td>
+                    </tr>
+                    {% else %}
                     {% for trainingPlan in trainingPlanList %}
                     <tr>
                       <td>{{ trainingPlan.planName }}</td>
@@ -28,6 +33,7 @@
                       <td><a href="{{ path("show_training_plan_day", {'trainingPlanDay': trainingPlan.firstDay, 'trainingPlan': trainingPlan.id }) }}" class="text-dark">Pokaż <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                     </tr>
                     {% endfor %}
+                    {% endif %}
                     </table>
                 </div>
             </div>

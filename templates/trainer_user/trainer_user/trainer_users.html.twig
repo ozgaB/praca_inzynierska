@@ -38,7 +38,7 @@
               <table class="table">
                 <tr>
                   <th>Imię i Nazwisko</th>
-                  <th colspan="2">Akcje</th>
+                  <th colspan="3">Akcje</th>
                 </tr>
                 {% if participantList is empty %}
                 <td colspan="3"><h2 class="text-danger">Aktualnie brak uczestników!</h2></td>
@@ -47,6 +47,7 @@
                 <tr>
                   <td>{{ participant.firstName }} {{ participant.lastName }}</td>
                   <td><a href="#" class="text-dark">Pokaż profil<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                  <td><a href="#" class="text-dark">Pokaż wszystkie przypięte plany<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                   <td><a href="{{ path("remove_participant",{ 'user': participant.idUser })}}" class="text-dark">Odepnij<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                 </tr>
                 {% endfor %}

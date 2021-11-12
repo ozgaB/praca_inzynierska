@@ -27,7 +27,7 @@ class TrainingPlanExercise{
 
     /**
      * @ManyToOne(targetEntity="TrainingPlanDay", inversedBy="trainingPlanExercise")
-     * @JoinColumn(name="training_plan_day_id", referencedColumnName="id")
+     * @JoinColumn(name="training_plan_day_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $trainingPlanDay;
     /**

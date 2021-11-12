@@ -57,7 +57,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb->getQuery()->getResult();
     }
 
-    public function getUsersWithRoleTrainerAndCheckInvitation()
+    public function getUsersWithRoleTrainerAndCheckInvitation(int $userId)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -68,12 +68,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             'user.lastName',
             'user.email',
             'user.roles',
-            'invitation.idTrainer AS idTrainer',
+            'invitation.id AS invitationId',
         ])
         ->from('App\Entity\Security\User','user')
-        ->leftJoin('App\Entity\Invitation\Invitation','invitation', Join::WITH,'user.id = invitation.idTrainer')
-        ->where($qb->expr()->in('user.roles',':user_role'))
-        ->setParameter(':user_role','["ROLE_TRAINER"]');
+        ->leftJoin('App\Entity\Invitation\Invitation','invitation', Join::WITH, $qb->expr()->andX($qb->expr()->eq('user.id','invitation.idTrainer'),$qb->expr()->eq('invitation.idUser',':user_id')))
+        ->where($qb->expr()->eq('user.roles',':user_role'))
+        ->setParameter(':user_role','["ROLE_TRAINER"]')
+        ->setParameter(':user_id',$userId);
 
         return $qb->getQuery()->getResult();
     }

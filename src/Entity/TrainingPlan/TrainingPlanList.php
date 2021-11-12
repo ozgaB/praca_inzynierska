@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use App\Entity\TrainingPlan\TrainingPlanDay;
 use App\Repository\TrainingPlanListRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity(repositoryClass=TrainingPlanListRepository::class)
@@ -49,9 +50,14 @@ class TrainingPlanList{
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="TrainingPlanDay", mappedBy="trainingPlanList", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="TrainingPlanDay", mappedBy="trainingPlan", cascade={"remove","persist"}, orphanRemoval=true)
      */
     private $trainingPlanDay;
+
+    public function __construct()
+    {
+        $this->trainingPlanDay = new ArrayCollection();
+    }
 
     public function setCreatedAt()
     {
@@ -141,6 +147,27 @@ class TrainingPlanList{
         $this->planName = $planName;
 
         return $this;
+    }
+
+    public function addTrainingPlanDay(TrainingPlanDay $trainingPlanDay)
+    {
+        $this->trainingPlanDay[] = $trainingPlanDay;
+        $trainingPlanDay->setTrainingPlan($this);
+
+        return $this;
+    }
+
+    public function removeTrainingPlanDay(TrainingPlanDay $trainingPlanDay)
+    {
+        $this->trainingPlanDay->removeElement($trainingPlanDay);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTrainingPlanDay()
+    {
+        return $this->trainingPlanDay;
     }
 }
 

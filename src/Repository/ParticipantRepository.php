@@ -71,6 +71,21 @@ class ParticipantRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function getCountOfActualTrainerParticipants($trainerId)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb
+        ->select([
+            'Count(participant.id) AS count_of_trainer_participants',
+        ])
+        ->from('App\Entity\Participant\Participant','participant')
+        ->where($qb->expr()->in('participant.idTrainer',':id_trainer'))
+        ->setParameter(':id_trainer',$trainerId);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 }
 
 

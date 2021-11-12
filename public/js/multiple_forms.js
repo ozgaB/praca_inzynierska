@@ -1,6 +1,6 @@
 var $collectionHolder;
 
-var $addNewItem = $('<a href="#" class="btn btn-info">Dodaj nowy wiersz</a>');
+var $addNewItem = $('<div class="d-flex flex-column justify-content-center"><a href="#" class="btn-sm btn-success text-center pl-5 pr-5 mt-4">Dodaj nowy wiersz</a></div>');
 
 $(document).ready(function () {
     // get collection
@@ -34,7 +34,9 @@ function addNewForm() {
 
     var $panel = $('<div class="panel panel-warning"><div class="panel-heading"></div></div>');
 
-    var $panelBody = $('<div class="panel-body"></div>').append(newForm);
+    var $panelBody = $(
+        '<div class="panel-body mt-4"></div>'
+        ).append(newForm);
 
     $panel.append($panelBody);
 
@@ -47,7 +49,7 @@ function addNewForm() {
 
 function addRemoveButton ($panel) {
     
-    var $removeButton = $('<a href="#" class="btn btn-danger">Usuń</a>');
+    var $removeButton = $('<div class="d-flex flex-column justify-content-center"><a href="#" class="btn-sm btn-danger text-center pl-5 pr-5 mt-4">Usuń</a></div>');
 
     var $panelFooter = $('<div class="panel-footer"></div>').append($removeButton);
 

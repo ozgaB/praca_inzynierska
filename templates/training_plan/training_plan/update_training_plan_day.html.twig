@@ -11,11 +11,42 @@
                   <a href="{{ path("show_training_plan_list_trainer")}}" class="btn-sm btn-dark btn-block add_plan_btn text-center" role="button"><i class="fas fa-backward"></i>  Powrót na listę</a>
                 </div>
                   <div class="d-flex justify-content-center">
-                    <div class="d-flex flex-column justify-content-center add_training_plan_form">
-                      <div class="text-center pt-0 pl-4 pr-4 pb-2">
-                        <h2>Dodaj nowy dzień treningowy oraz ćwiczenia</h2>
-                      </div>
-                      <div class="d-flex flex-column justify-content-centerr pt-4 pl-4 pr-4 pb-4">
+                  <div class="d-flex flex-column justify-content-center add_training_plan_form">
+                <div class="text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Edytuj dzień {{ currentTrainingPlanDay.dayName }}</h2>
+                </div>
+                    <nav aria-label="Page navigation example text-center ">
+                    <ul class="pagination pagination-lg justify-content-center">
+                      {% if previousDay is null %}
+
+                      {% else %}
+                      <li class="page-item">
+                      <a class="page-link text-dark main_green_text" href="{{ path("update_training_plan_day", {'trainingPlanDay': previousDay.id, 'trainingPlan': trainingPlan.id }) }}">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Next</span>
+                      {{ previousDay.dayName }}
+                      </a>
+                      </li>
+                      {% endif %}
+                      <li class="page-item">
+                      <a class="page-link text-dark second_green_text font-weight-bold" href="{{ path("update_training_plan_day", {'trainingPlanDay': currentTrainingPlanDay.id, 'trainingPlan': trainingPlan.id }) }}">
+                      {{ currentTrainingPlanDay.dayName }}
+                      </a>
+                      </li>
+                      {% if nextDay is null %}
+
+                      {% else %}
+                      <li class="page-item">
+                      <a class="page-link text-dark main_green_text" href="{{ path("update_training_plan_day", {'trainingPlanDay': nextDay.id, 'trainingPlan': trainingPlan.id }) }}">
+                      {{ nextDay.dayName }}
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                      </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                      <div class="d-flex flex-column justify-content-center pt-4 pl-4 pr-4 pb-4">
                         {{ form_start(form, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
                           <div class="form-control">
                             <h3 class="text-dark">{{ form_label(form.dayName) }}   <i class="fas fa-pencil-alt ml-2"></i></h4>
@@ -38,11 +69,11 @@
                               {{ form_widget(form.saveAndAdd,{'attr': {'class': 'btn-sm btn-dark text-center pl-5 pr-5 mt-4', 'type': 'submit'}})}}
                               {{ form_widget(form.save,{'attr': {'class': 'btn-sm btn-dark text-center pl-5 pr-5 mt-4', 'type': 'submit'}})}}
                             </div>
+                          {{ form_end(form) }}
                           </div>
-                        {{ form_end(form) }}
                       </div>
-                  </div>
-                  </div>
+                      </div>
+                      </div>
                 </div>
             </div>
           </div>

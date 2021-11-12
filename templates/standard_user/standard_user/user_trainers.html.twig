@@ -85,7 +85,7 @@
                       <tr>
                         <td>{{trainer.firstName}} {{trainer.lastName}}</td>
                         <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sagittis aliquam nibh, ut placerat purus ultricies eu. Nunc euismod rutrum auctor. Aliquam commodo dui eu nunc imperdiet hendrerit sed eget ante.</td>
-                        {% if trainer.idTrainer is null %}
+                        {% if trainer.invitationId is null %}
                         <td><a href="{{ path("send_invitation", {'user': trainer.id })}}" class="btn btn-dark" role="button">Zapytaj o udział</a></td> 
                         {% else %}
                         <td><h4><span class="badge badge-dark">Już wysłano zaproszenie do tego trenera!</span></h4></td>                          

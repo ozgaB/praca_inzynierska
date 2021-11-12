@@ -20,11 +20,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class TrainingPlanDay{
 
-    public function __construct()
-    {
-        $this->trainingPlanExercise = new ArrayCollection();
-    }
-
     /**
      * @Id
      * @GeneratedValue
@@ -33,12 +28,10 @@ class TrainingPlanDay{
     private $id;
 
     /**
-     * @GeneratedValue
-     * @ORM\Column(type="integer")
-     * @ManyToOne(targetEntity="TrainingPlanList")
-     * @JoinColumn(name="id", referencedColumnName="idTrainingPlan")
+     * @ManyToOne(targetEntity="TrainingPlanList", inversedBy="trainingPlanDay")
+     * @JoinColumn(name="id_training_plan", referencedColumnName="id", nullable="true", onDelete="CASCADE")
      */
-    private $idTrainingPlan;
+    private $trainingPlan;
 
     /**
      * @ORM\Column(type="string")
@@ -47,26 +40,33 @@ class TrainingPlanDay{
     private $dayName;
 
     /**
-     * @ORM\OneToMany(targetEntity="TrainingPlanExercise", mappedBy="trainingPlanDay", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="TrainingPlanExercise", mappedBy="trainingPlanDay", cascade={"remove","persist"}, orphanRemoval=true)
      */
     private $trainingPlanExercise;
 
-    /**
-     * Get the value of idTrainingPlan
-     */ 
-    public function getIdTrainingPlan()
+    public function __construct()
     {
-        return $this->idTrainingPlan;
+        $this->trainingPlanExercise = new ArrayCollection();
     }
 
     /**
-     * Set the value of idTrainingPlan
-     *
-     * @return  self
+     * Get the value of trainingPlan
      */ 
-    public function setIdTrainingPlan($idTrainingPlan)
+    public function getTrainingPlan()
     {
-        $this->idTrainingPlan = $idTrainingPlan;
+        return $this->trainingPlan;
+    }
+
+    /**
+     * Set the value of trainingPlan
+     *
+     * @var TrainingPlanList $trainingPlan
+     * 
+     * @return  TrainingPlanList
+     */ 
+    public function setTrainingPlan(TrainingPlanList $trainingPlan)
+    {
+        $this->trainingPlan = $trainingPlan;
 
         return $this;
     }
@@ -82,7 +82,7 @@ class TrainingPlanDay{
     /**
      * Set the value of dayName
      *
-     * @return  self
+     * @return  TrainingPlanList
      */ 
     public function setDayName($dayName)
     {
@@ -127,7 +127,7 @@ class TrainingPlanDay{
     /**
      * @return Collection
      */
-    public function getTrainingPLanExercise()
+    public function getTrainingPlanExercise()
     {
         return $this->trainingPlanExercise;
     }

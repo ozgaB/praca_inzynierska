@@ -37,7 +37,7 @@ public function index()
 public function userTrainers(Security $security,UserRepository $userRepository, ParticipantRepository $participantRepository, InvitationRepository $invitationRepository)
 {
     $user = $security->getUser();
-    $trainers = $userRepository->getUsersWithRoleTrainerAndCheckInvitation();
+    $trainers = $userRepository->getUsersWithRoleTrainerAndCheckInvitation($user->getId());
     $actualTrainer = $participantRepository->getTrainerWithDataByUserId($user->getId());
 
     return [

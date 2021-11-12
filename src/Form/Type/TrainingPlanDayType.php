@@ -27,7 +27,7 @@ class TrainingPlanDayType extends AbstractType
                 'dayName',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Day Name',
                 ]
             )
             ->add(
@@ -36,11 +36,11 @@ class TrainingPlanDayType extends AbstractType
                 [
                     'entry_type' => TrainingPlanExerciseType::class,
                     'entry_options' => [
-                        'label' => false
+                        'label' => true
                     ],
                     'by_reference' => false,
                     'allow_add' => true,
-                    'allow_delete' => true
+                    'allow_delete' => true,
                 ]
                 )
             ->add(

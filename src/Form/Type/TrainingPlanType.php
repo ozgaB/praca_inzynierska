@@ -18,14 +18,14 @@ class TrainingPlanType extends AbstractType
                 'planName',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Plan Name',
                 ]
             )
             ->add(
                 'description',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Description',
                 ]
             )
             ->add(

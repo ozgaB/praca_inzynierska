@@ -33,6 +33,20 @@ class InvitationRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getCountOfActualTrainerInvitation($trainerId){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb
+        ->select([
+            'Count(invitation.id) AS count_of_trainer_invitation',
+        ])
+        ->from('App\Entity\Invitation\Invitation','invitation')
+        ->where($qb->expr()->in('invitation.idTrainer',':id_trainer'))
+        ->setParameter(':id_trainer',$trainerId);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
 
 

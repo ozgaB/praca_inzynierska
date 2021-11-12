@@ -24,42 +24,42 @@ class TrainingPlanExerciseType extends AbstractType
                 'exerciseName',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Exercise Name',
                 ]
             )
             ->add(
                 'muscleGroup',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Muscle Group',
                 ]
             )
             ->add(
                 'sets',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Sets',
                 ]
             )
             ->add(
                 'repetition',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Repetitions',
                 ]
             )
             ->add(
                 'time',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Exercise Time',
                 ]
             )
             ->add(
                 'break',
                 TextType::class,
                 [
-                    'label' => '',
+                    'label' => 'Exercise Break',
                 ]
             )
         ;
@@ -70,6 +70,7 @@ class TrainingPlanExerciseType extends AbstractType
         $resolver->setDefaults([
             'data_class' => TrainingPlanExercise::class,
             'methods' => 'POST',
+            'attr' => ['class' => 'custom_inputs_add_form'],
         ]);
     }
 

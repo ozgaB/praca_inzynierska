@@ -26,10 +26,13 @@ class TrainingPlanListRepository extends ServiceEntityRepository {
             'trainingPlanList.planName AS planName',
             'trainingPlanList.description AS description',
             'trainingPlanList.createdAt AS createdAt',
+            'MIN(trainingPlanDay.id) AS firstDay',
         ])
         ->from('App\Entity\TrainingPlan\TrainingPlanList','trainingPlanList')
+        ->leftJoin('App\Entity\TrainingPlan\TrainingPlanDay','trainingPlanDay', Join::WITH, 'trainingPlanList.id = trainingPlanDay.trainingPlan')
         ->where($qb->expr()->eq('trainingPlanList.idTrainer',':id_trainer'))
-        ->setParameter(':id_trainer',$trainerId);
+        ->setParameter(':id_trainer',$trainerId)
+        ->groupBy('trainingPlanList.id');
 
         return $qb->getQuery()->getResult();
     }
@@ -52,7 +55,7 @@ class TrainingPlanListRepository extends ServiceEntityRepository {
         ->from('App\Entity\TrainingPlan\TrainingPlanList','trainingPlanList')
         ->innerJoin('App\Entity\Security\User','user', Join::WITH, 'user.id = trainingPlanList.idTrainer')
         ->innerJoin('App\Entity\TrainingPlan\TrainingPlanAccess','access', Join::WITH, 'access.idTrainingPlan = trainingPlanList.id')
-        ->innerJoin('App\Entity\TrainingPlan\TrainingPlanDay','trainingPlanDay', Join::WITH, 'trainingPlanList.id = trainingPlanDay.idTrainingPlan')
+        ->innerJoin('App\Entity\TrainingPlan\TrainingPlanDay','trainingPlanDay', Join::WITH, 'trainingPlanList.id = trainingPlanDay.trainingPlan')
         ->where($qb->expr()->eq('access.idUser',':id_user'))
         ->setParameter(':id_user',$userId)
         ->groupBy('trainingPlanList.id');
@@ -70,7 +73,7 @@ class TrainingPlanListRepository extends ServiceEntityRepository {
             'trainingPlanDay.id AS trainingPlanDayId',
         ])
         ->from('App\Entity\TrainingPlan\TrainingPlanList','trainingPlanList')
-        ->innerJoin('App\Entity\TrainingPlan\TrainingPlanDay','trainingPlanDay', Join::WITH, 'trainingPlanList.id = trainingPlanDay.idTrainingPlan')
+        ->innerJoin('App\Entity\TrainingPlan\TrainingPlanDay','trainingPlanDay', Join::WITH, 'trainingPlanList.id = trainingPlanDay.trainingPlan')
         ->where($qb->expr()->eq('trainingPlanList.id',':id_training_plan'))
         ->setParameter(':id_training_plan',$trainingPlanId);
 

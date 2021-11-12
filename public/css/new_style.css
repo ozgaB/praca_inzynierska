@@ -23,6 +23,18 @@
 .bg-black{
   background-color: var(--black-color-user);
 }
+.main_green_text {
+  color: var(--menu-color) !important;;
+}
+.second_green_text {
+  color: var(--menu-second-color) !important;
+}
+.main_green_background {
+  background-color:var(--menu-color)  !important;
+}
+.second_green_background {
+  background-color:var(--menu-second-color) !important;
+}
 a{
   color: var(--white-color) !important;
   text-decoration: none !important;
@@ -527,6 +539,25 @@ input[type=checkbox]:checked{
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
 }
+.custom_inputs_add_form{
+  background-color: var(--white-color);
+  border: none;
+  color: var(--second-color);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 5px;
+  width: 85%;
+  border: 1px solid #ced4da;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -ms-border-radius: 5px 5px 5px 5px;
+  -o-border-radius: 5px 5px 5px 5px;
+}
 
 
 /** MAIN PAGE */
@@ -832,7 +863,7 @@ text-decoration: none;
 }
 .custom_alert{
 position: fixed !important;
-margin-top:60px;
+margin-top:120px;
 width: 100%;
 text-align: center;
 }
@@ -865,4 +896,15 @@ text-align: center;
   display: flex;
   justify-content: center;
   width: 100%;
+}
+.add_training_plan_form {
+  width: 550px !important;
+}
+@media(max-width:460px){
+  .add_training_plan_form {
+    width: 300px !important;
+  }
+}
+.default_form_label{
+  font-weight: 500;
 }
