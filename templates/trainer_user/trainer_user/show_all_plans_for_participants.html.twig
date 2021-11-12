@@ -8,16 +8,18 @@
             <div class="grid_panel">
               <div class="user_trainings_list">
                 <div class="row text-center pt-4 pl-4 pr-4 pb-4">
-                  <h2>Tu znajdują się <span class="text-success">plany </span> udostępnione dla  {{ participant.firstName }} {{ participant.lastName }} </h2>
+                  <h2>Tu znajdują się <span class="text-success">plany treningowe</span> stworzone przez ciebie</h2>
                 </div>
                 <div class="row text-center pt-4 pl-4 pr-4 pb-4">
                   <table class="table">
                     <tr>
+                      <th>Imię i Nazwisko</th>
                       <th>Nazwa Planu</th>
                       <th colspan="1">Akcje</th>
                     </tr>
                       {% for participantPlan in participantsWithPlans %}
                       <tr>
+                        <td> {{ participantPlan.firstName }} {{ participantPlan.lastName }} </td>
                         <td> {{ participantPlan.planName }} </td>
                         <td><a href="{{ path("remove_access_for_training_plan", {'trainingPlanAccess': participantPlan.idAccess, 'trainingPlan': participantPlan.idTrainingPlan })}}" class="text-dark">Odepnij od planu<i class="fas fa-user-times fa-x2 pl-2"></i></a></td>
                     </tr>

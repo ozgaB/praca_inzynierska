@@ -47,7 +47,7 @@
                 <tr>
                   <td>{{ participant.firstName }} {{ participant.lastName }}</td>
                   <td><a href="#" class="text-dark">Pokaż profil<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
-                  <td><a href="#" class="text-dark">Pokaż wszystkie przypięte plany<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                  <td><a href="{{ path("show_all_plan_for_user",{ 'user': participant.idUser })}}" class="text-dark">Pokaż wszystkie przypięte plany<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                   <td><a href="{{ path("remove_participant",{ 'user': participant.idUser })}}" class="text-dark">Odepnij<i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                 </tr>
                 {% endfor %}
