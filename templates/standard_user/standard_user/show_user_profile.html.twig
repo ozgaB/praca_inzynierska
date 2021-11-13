@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "trainer_user" %}
+{% use "menu_trainer_home_page.html.twig" %}
+{% block content %}
+    <div class="background" id="background">
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel_center">
+              <div class="user_profile">
+                <div class="d-flex pt-3 pr-3" style="">
+                  <a href="{{ path("trainer_users")}}" class="btn-sm btn-dark btn-block add_plan_btn text-center" role="button"><i class="fas fa-backward"></i>  Powrót na listę</a>
+                </div>
+                <div class="text-center">
+                  <img src="../images/user_profile.jpg" class="mt-5 mb-4 center img-thumbnail" height="300px" width="200px">
+                </div>
+                <div class="text-center">
+                  <h3 class="mt-2">Bartosz Ozga</h3> 
+                  <hr class="line">
+                  <div class="row">
+                  <div class="col-12">
+                    <h5> Dane kontaktowe: </h5>
+                  </div>
+                    <div class="col-md-6">
+                      <h5>Email:</h5>
+                      <span class="mt-1 clearfix">ozgabartosz.og@gmail.com</span>
+                    </div>
+                    <div class="col-md-6">
+                      <h5>Telefon:</h5>
+                      <h5>698142035</h5>
+                    </div>
+                  <div class="col-12 mt-5 mb-5">
+                    <h5><a href="{{ path("show_all_plan_for_user",{ 'user': user.id })}}" class="text-dark">Pokaż wszystkie przypięte plany <i class="fas fa-eye fa-x2 pl-2"></i></a></h5>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}

@@ -21,6 +21,7 @@ use App\Repository\TrainingPlanAccessRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\TrainingPlan\TrainingPlanExercise;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrainingPlanController extends AbstractController
@@ -29,6 +30,7 @@ class TrainingPlanController extends AbstractController
     /**
      * @Route("/show_training_plan_list_trainer", name="show_training_plan_list_trainer")
      * @Template()
+     * @IsGranted("ROLE_TRAINER")
      */
     public function showTrainingPlanList(Security $security, TrainingPlanListRepository $trainingPlanListRepository)
     {
@@ -42,6 +44,7 @@ class TrainingPlanController extends AbstractController
     /**
      * @Route("/add_training_plan", name="add_training_plan")
      * @Template()
+     * @IsGranted("ROLE_TRAINER")
      */
     public function addTrainingPlan(Security $security, Request $request, TrainingPlanCRUD $trainingPlanCRUD)
     {
@@ -74,6 +77,7 @@ class TrainingPlanController extends AbstractController
     /**
      * @Route("/add_training_plan_day/{trainingPlan}", name="add_training_plan_day")
      * @Template()
+     * @IsGranted("ROLE_TRAINER")
      */
     public function addTrainingPlanDay(Request $request, TrainingPlanList $trainingPlan, TrainingPlanCRUD $trainingPlanCRUD)
     {
@@ -104,6 +108,7 @@ class TrainingPlanController extends AbstractController
         /**
      * @Route("/update_training_plan_day/{trainingPlan}/day/{trainingPlanDay}", name="update_training_plan_day")
      * @Template()
+     * @IsGranted("ROLE_TRAINER")
      */
     public function updateTrainingPlanDay(
         Request $request,
@@ -148,11 +153,12 @@ class TrainingPlanController extends AbstractController
     /**
      * @Route("/show_training_plan_access_list/{trainingPlan}", name="show_training_plan_access_list")
      * @Template()
+     * @IsGranted("ROLE_TRAINER")
      */
     public function showTrainingPlanAccessList(ParticipantRepository $participantRepository, Security $security, TrainingPlanAccessRepository $trainingPlanAccessRepository, TrainingPlanList $trainingPlan)
     {
         $trainerId = $security->getUser()->getId();
-        $participantList = $participantRepository->getParticipantsByTrainerIdWithoutAccess($trainerId,$trainingPlan->getId());
+        $participantList = $participantRepository->getParticipantsByTrainerIdWithoutAccessToTrainingPlan($trainerId,$trainingPlan->getId());
         $accessList = $trainingPlanAccessRepository->getAccessListByTrainingPlanId($trainingPlan->getId());
         return [
             'trainingPlan' => $trainingPlan,
@@ -162,6 +168,7 @@ class TrainingPlanController extends AbstractController
     }
     /**
      * @Route("/add_access_to_training_plan/{participantUser}/plan/{trainingPlan}", name="add_access_to_training_plan")
+     * @IsGranted("ROLE_TRAINER")
      * 
      */
     public function addAccessToTrainingPlan(User $participantUser,TrainingPlanList $trainingPlan, TrainingPlanCRUD $trainingPlanCRUD)
@@ -176,6 +183,7 @@ class TrainingPlanController extends AbstractController
     }
     /**
      *  @Route("/remove_access_from_training_plan/{trainingPlanAccess}/plan/{trainingPlan}", name="remove_access_for_training_plan")
+     * @IsGranted("ROLE_TRAINER")
      */
     public function removeAccessForTrainingPlan(TrainingPlanAccess $trainingPlanAccess,TrainingPlanList $trainingPlan, TrainingPlanCRUD $trainingPlanCRUD)
     {
@@ -190,6 +198,7 @@ class TrainingPlanController extends AbstractController
     /**
      *  @Route("/show_training_plan_list_for_user", name="show_training_plan_list_for_user")
      *  @Template()
+     *  @IsGranted("ROLE_USER")
      */
     public function showTrainingPlanListForUser(TrainingPlanListRepository $trainingPlanListRepository, Security $security)
     {
@@ -203,6 +212,7 @@ class TrainingPlanController extends AbstractController
     /**
      * @Route("/show_training_plan/{trainingPlan}/day/{trainingPlanDay}", name="show_training_plan_day")
      * @Template()
+     * @IsGranted("ROLE_USER")
      */
     public function showTrainingPlanDay(TrainingPlanDayRepository $trainingPlanDayRepository, TrainingPlanDay $trainingPlanDay, TrainingPlanListRepository $trainingPlanListRepository,TrainingPlanList $trainingPlan)
     {
@@ -225,6 +235,7 @@ class TrainingPlanController extends AbstractController
     }
     /**
      * @Route("/remove_training_plan/{trainingPlan}", name="remove_training_plan")
+     * @IsGranted("ROLE_TRAINER")
      */
     public function removeTrainingPlan(TrainingPlanCRUD $trainingPlanCRUD,TrainingPlanList $trainingPlan)
     {

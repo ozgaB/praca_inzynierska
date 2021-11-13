@@ -1,13 +1,15 @@
 {% extends "base.html.twig" %}
+{% set menu_name = "profile" %}
 {% use "menu_user_home_page.html.twig" %}
 {% block content %}
         <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
         <div class="main_content">
           <div class="center_content">
             <div class="grid_panel">
               <div class="user_baner">
                 <div class="user_baner_text">
-                  <h1>Bartosz Ozga</h1><span>Witamy cię w naszej aplikacji tu znajdziesz wszystko by osiągnąć swój cel!</span>                </div>
+                  <h1>{{user.firstName}} {{user.lastName}}</h1><span>Witamy cię w naszej aplikacji tu znajdziesz wszystko by osiągnąć swój cel!</span>                </div>
               </div>
             </div>
             <div class="grid_panel_center">
@@ -16,20 +18,32 @@
                   <img src="../images/user_profile.jpg" class="mt-5 mb-4 center img-thumbnail" height="300px" width="200px">
                 </div>
                 <div class="text-center">
-                  <h3 class="mt-2">Bartosz Ozga</h3> <span class="mt-1 clearfix">ozgabartosz.og@gmail.com</span>
+                  <h3 class="mt-2">{{user.firstName}} {{user.lastName}}</h3> <span class="mt-1 clearfix">{{user.email}}</span>
                   <hr class="line">
                   <div class="row">
                     <div class="col-md-4">
                       <h5>Wiek:</h5>
-                      <h5>23</h5>
+                      {% if userBio.age is not defined %}
+                      <h6 class="text-danger">Brak danych</h6>
+                      {% else %}
+                      <h5>{{userBio.age}}</h5>
+                      {% endif %}
                     </div>
                     <div class="col-md-4">
                       <h5>Wzrost:</h5>
-                      <h5>182</h5>
+                      {% if userBio.height is not defined %}
+                      <h6 class="text-danger">Brak danych</h6>
+                      {% else %}
+                      <h5>{{userBio.height}}</h5>
+                      {% endif %}
                     </div>
                     <div class="col-md-4">
                       <h5>Aktualna waga:</h5>
-                      <h5>85 kg</h5>
+                      {% if userBio.weight is not defined %}
+                      <h6 class="text-danger">Brak danych</h6>
+                      {% else %}
+                      <h5>{{userBio.weight}}</h5>
+                      {% endif %}
                     </div>
                   </div>
                 <div class="row">
@@ -59,11 +73,37 @@
                   <div class="row">
                     <div class="col-md-6">
                         <span class="mt-3 clearfix">Telefon:</span>
-                        <span class="mt-3 clearfix">698142035</span>
+                        {% if address.phoneNumber is defined %}
+                        <span class="mt-3 clearfix">{{address.phoneNumber}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
                     </div>
                     <div class="col-md-6">
                         <span class="mt-3 clearfix">Adres zamieszkania:</span>
-                        <span class="mt-3 clearfix">Bujwida 22 Wrocław</span>
+                        {% if address.country is defined %}
+                        <span class="mt-3 clearfix">{{address.country}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
+                        {% if address.city and address.postCode is defined %}
+                        <span class="mt-3 clearfix">{{address.city}} {{address.postCode}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
+                        {% if address.streetAndNumber is defined %}
+                        <span class="mt-3 clearfix">{{address.streetAndNumber}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
+                        {% if address.isPublic is defined %}
+                          {% if address.isPublic is same as(true) %}
+                          <span class="mt-3 clearfix text-success">Twój adres jest publiczny, możesz to zmienić w konfiguracji profilu</span>
+                          {% else %}
+                          <span class="mt-3 clearfix text-success">Twój adres nie jest publiczny, możesz to zmienić w konfiguracji profilu</span>
+                          {% endif %}
+                        {% else %}
+                        {% endif %}
                     </div>
                   </div>
                   <hr class="line" />
@@ -74,14 +114,18 @@
                       <h5>Twój trener:</h5>
                     </div>
                     <div class="col-md-3">
+                    {% if trainer is defined %}
                       <a href="#" class="text-success">Bartosz Ozga<a/>
+                    {% else %}
+                      <a href="#" class="text-dark">Trener nie został wybrany<a/>
+                    {% endif %}
                     </div>
                     <div class="col-md-3">
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-outline-success btn-sm mt-4 mb-4">Zarządzaj trenerami</button>
+                      <a href="{{path("user_trainers")}}" class="btn btn-success btn-sm mt-4 mb-4">Zarządzaj trenerami</a>
                     </div>
                   </div>
                 </div>
@@ -94,71 +138,32 @@
             <div class="grid_panel_center" id="edit_menu">
               <div class="user_profile">
                 <div class="text-center mt-5">
-                  <h3 class="mt-2">Dane osobowe:</h3>
+                <div class="text-center mt-2">
+                  <h3 class="mt-2">Biogram:</h3>
+                  <hr class="line mb-2">
+                    {{ form_start(formUserBio, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formUserBio, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formUserBio) }}
+                    {{ form_end(formUserBio) }}
+                  <h3 class="mt-2">Dane konta:</h3>
                   <hr class="line">
-                  <form>
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-floating ml-2">
-                          <input type="text" class="form-control" id="floatingInput" placeholder="Imię">
-                          <label for="floatingInput">Imię</label>
-                        </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-floating mr-2">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
-                            <label for="floatingInput">Nazwisko</label>
-                          </div>
-                          </div>
-                      </div>
-                      <div class="row">
-                        <div class="col">
-                          <div class="form-floating ml-2 mt-4">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Imię">
-                            <label for="floatingInput">Telefon</label>
-                          </div>
-                          </div>
-                          <div class="col">
-                            <div class="form-floating mr-2 mt-4">
-                              <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
-                              <label for="floatingInput">Email</label>
-                              <small class="mt-2">Wymagane jest potwierdzenie Email</small>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                              <input type="submit" value="Ustaw nowe dane"></input>
-                            </div>
-                        </div>
-                  </form>
-                  <form>
-                        <div class="text-center mt-2">
-                          <h3 class="mt-2">Hasło:</h3>
-                          <hr class="line mb-2">
-                          <div class="row-xs-2">
-                            <div class="col text-center">
-                              <div class="form-floating mt-4">
-                                <input type="password" id="actual_password" class="form-control" name="actual_password" placeholder="Aktualne hasło" onkeyup='check();'>
-                                <label for="actual_password">Aktualne hasło</label>
-                                <div class="invalid-feedback"></div>
-                              </div>
-                                <div class="form-floating mt-4">
-                                  <input type="password" id="password" class="form-control" name="password" placeholder="Nowe hasło" onkeyup='check();'>
-                                  <label for="password">Nowe hasło</label>
-                                  <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="form-floating mt-4">
-                                  <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Potwierdź nowe hasło" onkeyup='check();'>
-                                  <label for="confirm_password">Potwierdź nowe hasło</label>
-                                  <div class="invalid-feedback"></div>
-                                  <div class="password_match" id='message'></div>
-                                </div>
-                                <input type="submit" value="Ustaw hasło" class="mt-3"></input>
-                                </div>
-                            </div>
-                        </div>
-                  </form>
+                    {{ form_start(formUserData, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formUserData, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formUserData) }}
+                    {{ form_end(formUserData) }}
+                  <div class="text-center mt-2">
+                  <h3 class="mt-2">Hasło:</h3>
+                  <hr class="line mb-2">
+                    {{ form_start(formPassword, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formPassword, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formPassword) }}
+                    {{ form_end(formPassword) }}
+                  <h3 class="mt-2">Dane kontaktowe:</h3>
+                  <hr class="line">
+                    {{ form_start(formAddress, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formAddress, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formAddress) }}
+                    {{ form_end(formAddress) }}
                 </div>
             </div>
             </div>

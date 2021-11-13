@@ -12,7 +12,7 @@
                   <a href="{{ path("trainer_home_page")}}">Profil</a>
                 </div>
                 <div class="nav-link" id="hidden">
-                  <a href="{{ path("trainer_home_page")}}">Diety</a>
+                  <a href="{{ path("show_diet_plan_list_trainer")}}">Diety</a>
                 </div>
                 <div class="nav-link" id="hidden">
                   <a href="{{ path("show_training_plan_list_trainer")}}">Treningi</a>
@@ -28,11 +28,41 @@
         </div>
         <div class="nav-user" id="nav-user">
           <ul>
-            <li class="active"><a href="{{ path("trainer_home_page")}}">Profil</a></li>
-            <li><a href="#">Diety</a>
+            {% if menu_name is defined and menu_name == 'profile'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("trainer_home_page")}}">Profil</a>
             </li>
-            <li><a href="{{ path("show_training_plan_list_trainer") }}">Treningi</a></li>
-            <li><a href="{{ path("trainer_users")}}">Uczestnicy<br> <small>Lista próśb</small></a></li>
+            {% if menu_name is defined and menu_name == 'diet_plan'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("show_diet_plan_list_trainer")}}">Diety</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'training_plan'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("show_training_plan_list_trainer") }}">Treningi</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'trainer_user'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("trainer_users")}}">Uczestnicy<br> <small>Lista próśb</small></a>
+            </li>
+            {% if menu_name is defined and menu_name == 'subscription'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="#">Subskrybcja<br> <small>Płatności</small></a>
+            </li>
           </ul>
             <li class="">
             <div class="justify-content-center mr-5">

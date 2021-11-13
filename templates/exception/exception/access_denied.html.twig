@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block content %}
+            <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="d-flex pt-3 pr-3" style="">
+                  <a href="{{ path("home_page")}}" class="btn-sm btn-dark btn-block add_plan_btn text-center" role="button"><i class="fas fa-backward"></i>  Powrót na stronę główną</a>
+                </div>
+              <div class="user_baner">
+                <div class="user_baner_text">
+                  <h1></h1><span>Nie masz dopstępu do tej strony!</span></div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}

@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 
 
 /**
@@ -48,6 +49,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     public function getId(): ?int
     {
@@ -151,6 +158,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Get the value of isActive
+     *
+     * @return  boolean
+     */ 
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the value of isActive
+     *
+     * @param  bool  $isActive
+     *
+     * @return  self
+     */ 
+    public function setIsActive(bool $isActive = false)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
     }
 }
 

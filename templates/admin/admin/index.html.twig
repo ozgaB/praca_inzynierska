@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "profile" %}
+{% use "menu_admin_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_baner">
+                <div class="user_baner_text">
+                  <h1>{{user.firstName}} {{user.lastName}}</h1><span>Jako administrator posiadasz pełen dostęp do zarządzania kontami!</span></div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        </div>
+{% endblock %}

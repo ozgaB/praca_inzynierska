@@ -559,6 +559,26 @@ input[type=checkbox]:checked{
   -o-border-radius: 5px 5px 5px 5px;
 }
 
+.custom_inputs_filter_form{
+  width: 90%;
+  padding:5px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #ced4da;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+  -ms-border-radius: 5px 5px 5px 5px;
+  -o-border-radius: 5px 5px 5px 5px;
+}
+
 
 /** MAIN PAGE */
 .main_page_trainers_baner_center{
@@ -619,7 +639,8 @@ padding: 15px 30px 10px 30px;
   align-self: center;
   justify-self: center;
   width: 400px;
-  height: 550px;
+  min-height: 450px;
+  height: auto;
   background-color: var(--black-color);
   box-shadow: 10px 5px 5px black;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);

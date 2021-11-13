@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "diet_plan" %}
+{% use "menu_trainer_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="d-flex pt-3 pr-3" style="">
+                  <a href="{{ path("show_diet_plan_list_trainer")}}" class="btn-sm btn-dark btn-block add_plan_btn text-center" role="button"><i class="fas fa-backward"></i>  Powrót na listę</a>
+                </div>
+                  <div class="d-flex justify-content-center">
+                    <div class="d-flex flex-column justify-content-center add_diet_plan_form">
+                      <div class="text-center pt-0 pl-4 pr-4 pb-2">
+                        <h2>Dodaj nowy dzień treningowy oraz ćwiczenia</h2>
+                      </div>
+                      <div class="d-flex flex-column justify-content-centerr pt-4 pl-4 pr-4 pb-4">
+                        {{ form_start(form, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                          <div class="form-control">
+                            <h3 class="text-dark">{{ form_label(form.dayName) }}   <i class="fas fa-pencil-alt ml-2"></i></h4>
+                            {{ form_widget(form.dayName, {'attr': {'class': 'custom_inputs_add_form', 'name': 'dayName', 'placeholder': 'Day Name', 'id': 'dayName'}})}}
+                            <small>{{ form_help(form.dayName) }}</small>
+                            <div class="form-error">
+                              {{ form_errors(form.dayName) }}
+                            </div>
+                              <div class="well" id="exercise_list" data-prototype="{{ form_widget(form.dietPlanProduct.vars.prototype)|e('html_attr')}}">
+                                {% for row in form.dietPlanProduct %}
+                                  <div class="panel panel-warning" id="panel">
+                                  <div class="panel-heading"></div>
+                                  <div class="panel-body">
+                                  {{ form_widget(row) }}
+                                  </div>
+                                  </div>
+                                {% endfor %}
+                              </div>
+                            <div class="d-flex flex-column justify-content-center">
+                              {{ form_widget(form.saveAndAdd,{'attr': {'class': 'btn-sm btn-dark text-center pl-5 pr-5 mt-4', 'type': 'submit'}})}}
+                              {{ form_widget(form.save,{'attr': {'class': 'btn-sm btn-dark text-center pl-5 pr-5 mt-4', 'type': 'submit'}})}}
+                            </div>
+                          </div>
+                        {{ form_end(form) }}
+                      </div>
+                  </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}

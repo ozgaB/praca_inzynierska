@@ -1,0 +1,90 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "diet_plan" %}
+{% use "menu_user_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+                {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2><span class="text-success">{{ dietPlan.planName }}</span></h2><br>
+                  <small>Tu znajdziesz konkretne dni twojego planu</small>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <nav aria-label="Page navigation example text-center ">
+                    <ul class="pagination pagination-lg">
+                      {% if previousDay is null %}
+                      {% else %}
+                      <li class="page-item">
+                      <a class="page-link text-dark main_green_text" href="{{ path("show_diet_plan_day", {'dietPlanDay': previousDay.id, 'dietPlan': dietPlan.id }) }}">
+                          <span aria-hidden="true">&laquo;</span>
+                          <span class="sr-only">Next</span>
+                      {{ previousDay.dayName }}
+                      </a>
+                      </li>
+                      {% endif %}
+                      <li class="page-item">
+                      <a class="page-link text-dark second_green_text font-weight-bold" href="{{ path("show_diet_plan_day", {'dietPlanDay': currentDay.id, 'dietPlan': dietPlan.id }) }}">
+                      {{ currentDay.dayName }}
+                      </a>
+                      </li>
+                      {% if nextDay is null %}
+
+                      {% else %}
+                      <li class="page-item">
+                      <a class="page-link text-dark main_green_text" href="{{ path("show_diet_plan_day", {'dietPlanDay': nextDay.id, 'dietPlan': dietPlan.id }) }}">
+                      {{ nextDay.dayName }}
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                      </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4" style="overflow-x:auto;" >
+                  <table class="table">
+                    <tr class="thead-dark">
+                      <th>Posiłek</th>
+                      <th>Nazwa produktu</th>
+                      <th>Białko</th>
+                      <th>Węglowodany</th>
+                      <th>Tłuszcz</th>
+                      <th>Kalorie</th>
+                      <th>Dodatkowe informacje  <i class="fas fa-pen-square"></i></th>
+                    </tr>
+                    {% if dietPlanProducts is empty %}
+                    <tr>
+                      <td colspan="7"><h2 class="text-danger">Brak Posiłków w wybranym dniu!</h2></td>
+                    </tr>
+                    {% else %}
+                    {% for dietPlanProduct in dietPlanProducts %}
+                    <tr>
+                      <td>{{ dietPlanProduct.mealGroup }}</td>
+                      <td>{{ dietPlanProduct.productName }}</td>
+                      <td>{{ dietPlanProduct.protein }} g</td>
+                      <td>{{ dietPlanProduct.carbo }} g</td>
+                      <td>{{ dietPlanProduct.fat }} g</td>
+                      <td>{{ dietPlanProduct.kcl }} kcl</td>
+                      <td>Opis z możliwością wklejenia linku</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                      <th colspan="2" >Suma</th>
+                      <td>{{ dietPlanProductsSum.proteinSum }} g</td>
+                      <td>{{ dietPlanProductsSum.carboSum }} g</td>
+                      <td>{{ dietPlanProductsSum.fatSum }} g</td>
+                      <td>{{ dietPlanProductsSum.kclSum }} kcl</td>
+                      <td></td>
+                    </tr>
+                    {% endif %}
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}

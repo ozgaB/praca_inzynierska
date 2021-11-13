@@ -79,4 +79,82 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb->getQuery()->getResult();
     }
 
+    public function getUsersByRole(string $role)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb
+        ->select([
+            'user.id',
+            'user.firstName',
+            'user.lastName',
+            'user.email',
+            'user.roles',
+            'invitation.id AS invitationId',
+        ])
+        ->from('App\Entity\Security\User','user')
+        ->leftJoin('App\Entity\Invitation\Invitation','invitation', Join::WITH, $qb->expr()->andX($qb->expr()->eq('user.id','invitation.idTrainer'),$qb->expr()->eq('invitation.idUser',':user_id')))
+        ->where($qb->expr()->eq('user.roles',':user_role'))
+        ->setParameter(':user_role','["ROLE_TRAINER"]')
+        ->setParameter(':user_id',$userId);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    
+    // FILTERS
+
+    public function getAllUsersQB()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb
+        ->select([
+            'user.id AS id',
+            'user.firstName AS firstName',
+            'user.lastName AS lastName',
+            'user.email AS email',
+            'user.roles AS roles',
+        ])
+        ->from('App\Entity\Security\User','user');
+
+        return $qb;
+    }
+
+    public function getUserRoleFilter($qb,$role)
+    {
+        $qb
+        ->where($qb->expr()->eq('user.roles',':user_role'))
+        ->setParameter(':user_role',$role);
+
+        return $qb;
+    }
+
+    public function getUserFirstNameFilter($qb,$firstName)
+    {
+        $qb
+        ->andWhere($qb->expr()->like('user.firstName',':user_first_name'))
+        ->setParameter(':user_first_name','%'.$firstName.'%');
+
+        return $qb;
+    }
+
+    public function getUserLastNameFilter($qb,$lastName)
+    {
+        $qb
+        ->andWhere($qb->expr()->like('user.lastName',':user_last_name'))
+        ->setParameter(':user_last_name','%'.$lastName.'%');
+
+        return $qb;
+    }
+
+    public function getUserEmailFilter($qb,$email)
+    {
+        $qb
+        ->andWhere($qb->expr()->like('user.email',':user_email'))
+        ->setParameter(':user_email','%'.$email.'%');
+
+        return $qb;
+    }
+
 }

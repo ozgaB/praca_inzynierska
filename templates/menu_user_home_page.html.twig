@@ -9,10 +9,10 @@
                 <a href="{{ path("logout")}}">{{('menu.logout')|trans}}</a>
               </div>
               <div class="nav-link" id="hidden">
-                <a href="#">Profil</a>
+                <a href="{{ path("user_home_page")}}">Profil</a>
               </div>
               <div class="nav-link" id="hidden">
-                <a href="#">Dieta</a>
+                <a href="{{ path("show_diet_plan_list_for_user")}}">Dieta</a>
               </div>
                 <div class="nav-link" id="hidden">
                   <a href="{{ path("show_training_plan_list_for_user")}}">Trening</a>
@@ -34,13 +34,47 @@
         </div>
         <div class="nav-user" id="nav-user">
           <ul>
-            <li class="active"><a href="#">Profil</a></li>
-            <li><a href="#">Dieta</a>
+            {% if menu_name is defined and menu_name == 'profile'%}
+            <li class="active">
+            {% else %}
+            <li class="">
+            {% endif %}
+            <a href="{{ path("user_home_page")}}">Profil</a>
             </li>
-            <li><a href="{{ path("show_training_plan_list_for_user")}}">Trening</a></li>
-            <li><a href="{{ path("user_trainers")}}">Trener</a></li>
-            <li><a href="#">Dziennik progresu</a></li>
-            <li><a href="#">Lista zakupów</a></li>
+            {% if menu_name is defined and menu_name == 'diet_plan'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("show_diet_plan_list_for_user")}}">Dieta</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'training_plan'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("show_training_plan_list_for_user")}}">Trening</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'user_trainer'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("user_trainers")}}">Trener</a></li>
+            {% if menu_name is defined and menu_name == 'progress_diary'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="#">Dziennik progresu</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'shop_list'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="#">Lista zakupów</a>
+            </li>
 
           </ul>
         </div>

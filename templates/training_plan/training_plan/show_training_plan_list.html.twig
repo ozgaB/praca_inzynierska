@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% set menu_name = "training_plan" %}
 {% use "menu_trainer_home_page.html.twig" %}
 {% block content %}
         <div class="background" id="background">
@@ -27,15 +28,15 @@
                         <td> {{ trainingPlan.description }} </td>
                         <td> {{ trainingPlan.createdAt|date('d-m-Y') }} </td>
                         <td><a href="{{ path("show_training_plan_access_list", {'trainingPlan': trainingPlan.id }) }}" class="text-dark">Zarządzaj uczestnikami <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
-                        <td><a href="{{ path("add_training_plan_day", {'trainingPlan': trainingPlan.id }) }}" class="text-dark">Dodaj Dni <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                        <td><a href="{{ path("add_training_plan_day", {'trainingPlan': trainingPlan.id }) }}" class="text-dark">Dodaj Dni <i class="fas fa-plus"></i></a></td>
                         <td>
                         {% if trainingPlan.firstDay is null %}
                         <span class="badge-xs badge-dark">Edycja możliwa po uzupełnieniu dni!</span>
                         {% else %}
-                        <a href="{{ path("update_training_plan_day", {'trainingPlanDay': trainingPlan.firstDay, 'trainingPlan': trainingPlan.id }) }}" class="text-dark">Edytuj <i class="fas fa-eye fa-x2 pl-2"></i></a>
+                        <a href="{{ path("update_training_plan_day", {'trainingPlanDay': trainingPlan.firstDay, 'trainingPlan': trainingPlan.id }) }}" class="text-dark">Edytuj <i class="far fa-edit"></i></a>
                         {% endif %}
                         </td>
-                        <td><a href="{{ path("remove_training_plan", {'trainingPlan': trainingPlan.id }) }}" class="text-dark">Usuń <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                        <td><a href="{{ path("remove_training_plan", {'trainingPlan': trainingPlan.id }) }}" class="text-dark">Usuń <i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                       {% endfor %}
                     </table>

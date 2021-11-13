@@ -26,6 +26,8 @@ security:
                 check_path: login
                 default_target_path: login_success
                 always_use_default_target_path: true
+            pattern: ^/
+            user_checker: App\Security\UserChecker
 
 
     # Easy way to control access for large sections of your site
@@ -33,3 +35,5 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_TRAINER]

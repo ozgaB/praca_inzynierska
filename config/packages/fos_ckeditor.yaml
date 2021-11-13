@@ -1,0 +1,18 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+fos_ck_editor:
+    configs:
+        my_config:
+            toolbar: basic
+
+    toolbars:
+        configs:
+            my_toolbar_1: [ "@document", "/", "@link" , "/", "@tool" ]
+            my_toolbar_2: [ "@document", "/", "@tool" ]
+        items:
+            document: [ "Source", "-", "Save" ]
+            link:     [ "Anchor" ]
+            tool:     [ "Maximize" ]

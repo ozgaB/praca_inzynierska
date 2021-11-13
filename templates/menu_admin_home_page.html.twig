@@ -1,0 +1,48 @@
+ {% block menu %}
+        <div class="nav-bar" id="nav-bar">
+          <div class="nav-logo">
+              <a href="{{ path("home_page")}}">Workout with <span>Me</span></a>
+          </div>
+          <div class="nav-links" id="nav-links">
+              <i class="fa fa-times fa-2x" onclick="closeMenu()"></i>
+              <div class="nav-link">
+                <a href="{{ path("logout")}}">{{('menu.logout')|trans}}</a>
+              </div>
+              <div class="nav-link" id="hidden">
+                <a href="{{ path("admin_home_page")}}">Profil</a>
+              </div>
+              <div class="nav-link" id="hidden">
+                <a href="{{ path("account_management")}}">Zarządzanie kontami</a>
+              </div>
+                <div class="nav-link" id="hidden">
+                  <a href="{{ path("account_accept")}}">Akceptacja kont</a>
+                </div>       
+          </div>
+          <i class="fa fa-bars fa-2x" onclick="showMenu()"></i>
+        </div>
+        <div class="nav-user" id="nav-user">
+          <ul>
+            {% if menu_name is defined and menu_name == 'profile'%}
+            <li class="active">
+            {% else %}
+            <li class="">
+            {% endif %}
+            <a href="{{ path("admin_home_page")}}">Profil</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'account_management'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("account_management")}}">Zarządzanie kontami</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'accept_account'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("account_accept")}}">Akceptacja kont</a>
+            </li>
+          </ul>
+        </div>
+{% endblock %}

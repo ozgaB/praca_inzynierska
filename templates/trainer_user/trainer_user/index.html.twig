@@ -1,7 +1,9 @@
 {% extends "base.html.twig" %}
+{% set menu_name = "profile" %}
 {% use "menu_trainer_home_page.html.twig" %}
 {% block content %}
         <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
         <div class="main_content">
           <div class="center_content">
             <div class="grid_panel_center">
@@ -11,8 +13,12 @@
                 </div>
                 <div class="text-center">
                   <small>Uwaga: Twoje dane profilowe są dostępne dla wszystkich uczestników</small>
-                  <h3 class="mt-2">{{app.user.firstName}} {{app.user.lastName}} {{app.user.id}}</h3> <span class="mt-1 clearfix">{{app.user.email}}</span>
-                  <span class="mt-1 clearfix">Trener personalny</span>
+                  <h3 class="mt-2">{{user.firstName}} {{user.lastName}}</h3> <span class="mt-1 clearfix">{{user.email}}</span>
+                  {% if trainerBio.shortDescription is defined %}
+                  <span class="mt-1 clearfix">{{trainerBio.shortDescription}}</span>
+                  {% else %}
+
+                  {% endif %}
                   <hr class="line">
                   <div class="row">
                     <div class="col-md-4">
@@ -32,33 +38,71 @@
                 <div class="row">
                   <div class="col-md-12">
                     <h5 class="text-center">Aktualny opis:</h5>
-                    <h5 class="text-muted text-justify p-2">lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum<h5/>
+                  {% if trainerBio.description is defined %}
+                    <h5 class="text-muted text-justify p-2">{{trainerBio.description|raw}}<h5/>
+                  {% else %}
+                    <h5 class="text-muted text-justify p-2">Opis nie został jeszcze ustawiony<h5/>
+                  {% endif %}
                   </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                      <h5>facebook:</h5>
+                      {% if trainerBio.facebookLink is not defined %}
+                      <h6 class="text-danger">Brak danych</h6>
+                      {% else %}
+                      <h5>{{trainerBio.facebookLink}}</h5>
+                      {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                      <h5>Instagram:</h5>
+                      {% if trainerBio.instagramLink is not defined %}
+                      <h6 class="text-danger">Brak danych</h6>
+                      {% else %}
+                      <h5>{{trainerBio.instagramLink}}</h5>
+                      {% endif %}
+                    </div>
+                  </div>
                 <hr class="line">
                   <div class="row">
                     <div class="col-md-12">
-                        <span class="mt-3 mb-2 clearfix">Dane kontaktowe oraz social media</span>
-                    </div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-md-6">
-                        <span class="mt-3 clearfix">Telefon:</span>
-                        <span class="mt-3 clearfix">698142035</span>
-                    </div>
-                    <div class="col-md-6">
-                        <span class="mt-3 clearfix">Adres zamieszkania:</span>
-                        <span class="mt-3 clearfix">Bujwida 22 Wrocław</span>
+                        <span class="mt-3 mb-2 clearfix">Dane kontaktowe:</span>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-6 mt-4">
-                        <span class="mt-3 clearfix">Facebook:</span>
-                        <span class="mt-3 clearfix"><a href="#" class="text-success">samplefacebook.com</a></span>
+                    <div class="col-md-6">
+                        <span class="mt-3 clearfix">Telefon:</span>
+                        {% if address.phoneNumber is defined %}
+                        <span class="mt-3 clearfix">{{address.phoneNumber}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
                     </div>
-                    <div class="col-md-6 mt-4">
-                        <span class="mt-3 clearfix">Instagram:</span>
-                        <span class="mt-3 clearfix"><a href="#" class="text-success">samplefacebook.com</a></span>
+                    <div class="col-md-6">
+                        <span class="mt-3 clearfix">Adres zamieszkania:</span>
+                        {% if address.country is defined %}
+                        <span class="mt-3 clearfix">{{address.country}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
+                        {% if address.city and address.postCode is defined %}
+                        <span class="mt-3 clearfix">{{address.city}} {{address.postCode}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
+                        {% if address.streetAndNumber is defined %}
+                        <span class="mt-3 clearfix">{{address.streetAndNumber}}</span>
+                        {% else %}
+                        <span class="mt-3 clearfix">Brak danych, uzupełnij konfigurację</span>
+                        {% endif %}
+                        {% if address.isPublic is defined %}
+                          {% if address.isPublic is same as(true) %}
+                          <span class="mt-3 clearfix text-success">Twój adres jest publiczny, możesz to zmienić w konfiguracji profilu</span>
+                          {% else %}
+                          <span class="mt-3 clearfix text-success">Twój adres nie jest publiczny, możesz to zmienić w konfiguracji profilu</span>
+                          {% endif %}
+                        {% else %}
+                        {% endif %}
                     </div>
                   </div>
                   <hr class="line" />
@@ -86,128 +130,57 @@
           </div>
             <div class="grid_panel_center" id="edit_menu">
               <div class="user_profile">
-                <div class="text-center mt-5">
-                  <h3 class="mt-2">Dane osobowe widoczne:</h3>
+               <div class="text-center mt-5">
+                <div class="text-center mt-2">
+                  <h3 class="mt-2">Biogram:</h3>
+                  <hr class="line mb-2">
+                    {{ form_start(formTrainerBio, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formTrainerBio, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formTrainerBio) }}
+                    {{ form_end(formTrainerBio) }}
+                  <h3 class="mt-2">Dane konta:</h3>
                   <hr class="line">
-                  <form>
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-floating ml-2">
-                          <input type="text" class="form-control" id="floatingInput" placeholder="Imię">
-                          <label for="floatingInput">Imię</label>
-                        </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-floating mr-2">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
-                            <label for="floatingInput">Nazwisko</label>
-                          </div>
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="col">
-                            <div class="form-floating ml-2 mr-2 mt-4">
-                              <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
-                              <label for="floatingInput">Email</label>
-                              <small class="mt-2">Wymagane jest potwierdzenie Email</small>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                          <div class="col">
-                            <div class="form-floating ml-2">
-                              <input type="text" class="form-control" id="floatingInput" placeholder="wklej link do profilu">
-                              <label for="floatingInput">Instagram</label>
-                            </div>
-                            </div>
-                            <div class="col">
-                              <div class="form-floating mr-2">
-                                <input type="text" class="form-control" id="floatingInput" placeholder="wklej link do profilu">
-                                <label for="floatingInput">Facebook</label>
-                              </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col">
-                                <div class="form-group ml-2 mr-2">
-                                  <label for="trainer_description">Opis/Biogram:</label>
-                                  <textarea class="form-control" id="trainer_description" rows="5"></textarea>
-                                </div>
-                                </div>
-                            </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                              <input type="submit" value="Ustaw nowe dane"></input>
-                            </div>
-                        </div>
-                  </form>
+                    {{ form_start(formUserData, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formUserData, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formUserData) }}
+                    {{ form_end(formUserData) }}
+                  <div class="text-center mt-2">
+                  <h3 class="mt-2">Hasło:</h3>
+                  <hr class="line mb-2">
+                    {{ form_start(formPassword, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formPassword, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formPassword) }}
+                    {{ form_end(formPassword) }}
+                  <h3 class="mt-2">Dane kontaktowe:</h3>
                   <hr class="line">
-                  <h3 class="mt-2">Dane osobowe prywatne:</h3>
-                  <form>
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-floating ml-2">
-                          <input type="text" class="form-control" id="floatingInput" placeholder="Imię">
-                          <label for="floatingInput">Telefon</label>
-                        </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-floating mr-2">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Nazwisko">
-                            <label for="floatingInput">Adres</label>
-                          </div>
-                          </div>
-                      </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                              <input type="submit" value="Ustaw nowe dane"></input>
-                            </div>
-                        </div>
-                  </form>
-                  <hr class="line">
-                  <form>
-                        <div class="text-center mt-2">
-                          <h3 class="mt-2">Hasło:</h3>
-                          <hr class="line mb-2">
-                          <div class="row-xs-2">
-                            <div class="col text-center">
-                              <div class="form-floating mt-4">
-                                <input type="password" id="actual_password" class="form-control" name="actual_password" placeholder="Aktualne hasło" onkeyup='check();'>
-                                <label for="actual_password">Aktualne hasło</label>
-                                <div class="invalid-feedback"></div>
-                              </div>
-                                <div class="form-floating mt-4">
-                                  <input type="password" id="password" class="form-control" name="password" placeholder="Nowe hasło" onkeyup='check();'>
-                                  <label for="password">Nowe hasło</label>
-                                  <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="form-floating mt-4">
-                                  <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Potwierdź nowe hasło" onkeyup='check();'>
-                                  <label for="confirm_password">Potwierdź nowe hasło</label>
-                                  <div class="invalid-feedback"></div>
-                                  <div class="password_match" id='message'></div>
-                                </div>
-                                <input type="submit" value="Ustaw hasło" class="mt-3"></input>
-                                </div>
-                            </div>
-                        </div>
-                  </form>
+                    {{ form_start(formAddress, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formAddress, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formAddress) }}
+                    {{ form_end(formAddress) }}
                 </div>
+            </div>
+            </div>
             </div>
             </div>
             <div class="grid_panel_center" id="ShowProfile_menu">
               <div class="grid_panel_item text-center">
                 <img src="../images/trainer_profile.jpg" class="img-thumbnail pt-2 pb-2 pl-2 pr-2 mt-4" width="200px" height="250px"></img>
                 <div class="trainer_main_bio">
-                  <span class="trainer_name">Bartosz Ozga</span>
-                  <p class="trainer_description">lorem ipsum ipsum lorem dupadupa dupa
-                    lorem ipsum ipsum lorem dupadupa dupa
-                    lorem ipsum ipsum lorem dupadupa dupa
-                    lorem ipsum ipsum lorem dupadupa dupa
-                    lorem ipsum ipsum lorem dupadupa dupa
+                  <span class="trainer_name">{{user.firstName}} {{user.lastName}}</span>
+                  <p class="trainer_description">
+                  {% if trainerBio.description is defined %}
+                  {{trainerBio.description}}
+                  {% else %}
+                  {% endif %}
                   </p>
-                  <a href="#" class="text-dark"><i class="fab fa-facebook-square fa-2x"></i></a>
-                  <a href="#" class="text-dark"><i class="fab fa-instagram-square fa-2x"></i></a>
+                  {% if trainerBio.facebookLink is not defined %}
+                      {% else %}
+                      <a href="https://{{trainerBio.facebookLink}}" class="text-dark"><i class="fab fa-facebook-square fa-2x"></i></a>
+                  {% endif %}
+                  {% if trainerBio.instagramLink is not defined %}
+                      {% else %}
+                      <a href="https://{{trainerBio.instagramLink}}" class="text-dark"><i class="fab fa-instagram-square fa-2x"></i></a>
+                  {% endif %}
                 </div>
               </div>
             </div>

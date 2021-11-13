@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% set menu_name = "trainer_user" %}
 {% use "menu_trainer_home_page.html.twig" %}
 {% block content %}
         <div class="background" id="background">
@@ -7,6 +8,9 @@
           <div class="center_content">
             <div class="grid_panel">
               <div class="user_trainings_list">
+                <div class="d-flex pt-3 pr-3" style="">
+                  <a href="{{ path("trainer_users")}}" class="btn-sm btn-dark btn-block add_plan_btn text-center" role="button"><i class="fas fa-backward"></i>  Powrót na listę</a>
+                </div>
                 <div class="row text-center pt-4 pl-4 pr-4 pb-4">
                   <h2>Tu znajdują się <span class="text-success">plany treningowe</span> stworzone przez ciebie</h2>
                 </div>
