@@ -90,13 +90,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             'user.lastName',
             'user.email',
             'user.roles',
-            'invitation.id AS invitationId',
         ])
         ->from('App\Entity\Security\User','user')
-        ->leftJoin('App\Entity\Invitation\Invitation','invitation', Join::WITH, $qb->expr()->andX($qb->expr()->eq('user.id','invitation.idTrainer'),$qb->expr()->eq('invitation.idUser',':user_id')))
         ->where($qb->expr()->eq('user.roles',':user_role'))
-        ->setParameter(':user_role','["ROLE_TRAINER"]')
-        ->setParameter(':user_id',$userId);
+        ->setParameter(':user_role',$role);
 
         return $qb->getQuery()->getResult();
     }
@@ -124,7 +121,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function getUserRoleFilter($qb,$role)
     {
         $qb
-        ->where($qb->expr()->eq('user.roles',':user_role'))
+        ->andWhere($qb->expr()->eq('user.roles',':user_role'))
         ->setParameter(':user_role',$role);
 
         return $qb;
@@ -153,6 +150,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $qb
         ->andWhere($qb->expr()->like('user.email',':user_email'))
         ->setParameter(':user_email','%'.$email.'%');
+
+        return $qb;
+    }
+
+    public function getAllUserInActive()
+    {
+        $qb = $this->getAllUsersQB();
+        $qb
+        ->andWhere($qb->expr()->like('user.isActive',':is_active'))
+        ->setParameter(':is_active',false);
 
         return $qb;
     }

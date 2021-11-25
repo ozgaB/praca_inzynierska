@@ -27,9 +27,11 @@ public function __construct(EntityManagerInterface $entityManager, UserPasswordE
         $role = $form->get('role')->getData();
         if(false === $role){
           $user->setRoles(['ROLE_USER']);
+          $user->setIsActive(true);
         } 
         else{
           $user->setRoles(['ROLE_TRAINER']);
+          $user->setIsActive(false);
         }
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -38,6 +40,20 @@ public function __construct(EntityManagerInterface $entityManager, UserPasswordE
 
   }  
 
+  public function editUser($form)
+  {
+
+  }
+
+  public function setIsActiveToTrue($user)
+  {
+
+  }
+
+  public function removeAccount($user)
+  {
+    
+  }
 
 }
 ?>

@@ -26,14 +26,17 @@ class FilterManager{
     $this->userRepository = $userRepository;
     }
 
-    public function getUserFilter(Form $form)
+    public function getUserFilter(Form $form, $qb = null)
     {
+        if(null === $qb)
+        {
+            $qb = $this->userRepository->getAllUsersQB();
+        }
         $role = $form->get('userRole')->getData();
         $firstName = $form->get('firstName')->getData();
         $lastName = $form->get('lastName')->getData();
         $email = $form->get('email')->getData();
 
-        $qb = $this->userRepository->getAllUsersQB();
         if(isset($role)){
             $qb = $this->userRepository->getUserRoleFilter($qb,$role);
         }

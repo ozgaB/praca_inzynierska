@@ -1,5 +1,8 @@
 {% extends "base.html.twig" %}
 {% set menu_name = "account_management" %}
+{% set admin_role = "ROLE_ADMIN" %}
+{% set standar_user_role = "ROLE_USER" %}
+{% set trainer_role = "ROLE_TRAINER" %}
 {% use "menu_admin_home_page.html.twig" %}
 {% block content %}
         <div class="background" id="background">
@@ -40,7 +43,13 @@
                       {{ role }}
                       {% endfor %}
                       </td>
-                      <td><a href="" class="text-dark">Pokaż <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                      <td>
+                      {% if admin_role in user.roles %}
+                      <span class="badge badge-dark">Podgląd niedostępny<i class="fas fa-eye fa-x2 pl-2"></i></span>
+                      {% else %}
+                      <a href="" class="text-dark">Pokaż <i class="fas fa-eye fa-x2 pl-2"></i></a>
+                      {% endif %}
+                      </td>
                       <td><a href="" class="text-dark">Edytuj <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                       <td><a href="" class="text-dark">Usuń <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
                     </tr>

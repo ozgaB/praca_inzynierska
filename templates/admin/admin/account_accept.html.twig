@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "account_accept" %}
+{% set admin_role = "ROLE_ADMIN" %}
+{% set standar_user_role = "ROLE_USER" %}
+{% set trainer_role = "ROLE_TRAINER" %}
+{% use "menu_admin_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+                {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Tu znajdują się <span class="text-success">konta wszystkich nie aktywnych użytkowników</span> których możesz dodać do systemu</h2>
+                </div>
+                <div class="text-center mt-2">
+                  <hr class="line mb-2">
+                    {{ form_start(filterForm, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(filterForm, {'attr': {'class': 'custom_inputs_filter_form'}})}}
+                      {{ form_errors(filterForm) }}
+                    {{ form_end(filterForm) }}
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <table class="table">
+                    <tr>
+                      <th>Imię i Nazwisko</th>
+                      <th>Email</th>
+                      <th>Rola</th>
+                      <th colspan="1">Akcje</th>
+                    </tr>
+                    {% if usersInActive is empty %}
+                    <tr>
+                      <td colspan="7"><h2 class="text-danger">Nie znaleziono użytkowników!</h2></td>
+                    </tr>
+                    {% else %}
+                    {% for user in usersInActive %}
+                    <tr>
+                      <td>{{ user.firstName }} {{ user.lastName }}</td>
+                      <td>{{ user.email }}</td>
+                      <td>
+                      {% for role in user.roles %}
+                      {{ role }}
+                      {% endfor %}
+                      </td>
+                      <td><a href="" class="text-dark">Akceptuj <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                      <td><a href="" class="text-dark">Usuń <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}
