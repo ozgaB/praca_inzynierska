@@ -17,6 +17,15 @@
                 <div class="nav-link" id="hidden">
                   <a href="{{ path("account_accept")}}">Akceptacja kont</a>
                 </div>       
+                <div class="nav-link" id="hidden">
+                  <a href="{{ path("subscription_list")}}">Zarządzanie subskrypcjami dla trenerów</a>
+                </div>    
+                <div class="nav-link" id="hidden">
+                  <a href="{{ path("subscription_type_list")}}">Zarządzanie typami subskrypcji</a>
+                </div>   
+                <div class="nav-link" id="hidden">
+                  <a href="{{ path("main_site_management")}}">Zarządzanie stroną główną</a>
+                </div>    
           </div>
           <i class="fa fa-bars fa-2x" onclick="showMenu()"></i>
         </div>
@@ -34,7 +43,7 @@
             {% else %}
             <li>
             {% endif %}
-            <a href="{{ path("account_management")}}">Zarządzanie kontami</a>
+            <a href="{{ path("account_management")}}" class="line_height_1_2">Zarządzanie kontami</a>
             </li>
             {% if menu_name is defined and menu_name == 'accept_account'%}
             <li class="active">
@@ -42,6 +51,27 @@
             <li>
             {% endif %}
             <a href="{{ path("account_accept")}}">Akceptacja kont</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'subscription'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("subscription_list")}}" class="line_height_1_2">Zarządzanie subskrypcjami dla trenerów</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'subscription_type'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("subscription_type_list")}}" class="line_height_1_2">Zarządzanie typami subskrypcji</a>
+            </li>
+            {% if menu_name is defined and menu_name == 'main_site_management'%}
+            <li class="active">
+            {% else %}
+            <li>
+            {% endif %}
+            <a href="{{ path("main_site_management")}}" class="line_height_1_2">Zarządzanie stroną główną</a>
             </li>
           </ul>
         </div>

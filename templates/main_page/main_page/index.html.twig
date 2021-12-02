@@ -1,14 +1,27 @@
 {% extends "base.html.twig" %}
 {% use "menu_home_page.html.twig" %}
+{% if firstText is not defined %}
+{% set firstText = 'Sukces to suma niewielkiego wysiłku powtarzanego z <span> dnia </span> na <span>dzień</span>'%}
+{% endif %}
+{% if secondText is not defined %}
+{% set secondText = 'Jesteś <span>Trenerem</span>?<br>Mamy coś dla <span>ciebie</span>'%}
+{% endif %}
+{% if trainerSectionVisible is not defined %}
+{% set trainerSectionVisible = true %}
+{% endif %}
 {% block content %}
         <div class="background" id="background">
         <div class="main_content">
           <div class="center_content">
             <div class="big_text_baner">
-              Sukces to suma niewielkiego wysiłku powtarzanego z <span> dnia </span> na <span>dzień</span><br>
+              {{firstText|raw}}<br>
 
             </div>
-
+            {% if trainerSectionVisible == true %}
+            <div>
+            {% else %}
+            <div style="display: none;">
+            {% endif %}
             <div class="main_page_trainers_baner_center">
               Nasi <span>Trenerzy</span><br>
               <i class="fas fa-dumbbell fa-2x"></i>
@@ -62,9 +75,9 @@
 
             </div>
             </div>
+            </div>
             <div class="main_page_trainers_baner_center_2">
-              Jesteś <span>Trenerem</span>?<br>
-              Mamy coś dla <span>ciebie</span>
+              {{secondText|raw}}
             </div>
 
             <div class="grid_panel">

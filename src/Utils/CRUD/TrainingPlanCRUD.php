@@ -41,7 +41,6 @@ class TrainingPlanCRUD
                 $this->result = 'success';
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
-                $this->result = 'faild';
             }
         }
         return [

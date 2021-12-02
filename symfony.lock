@@ -1,4 +1,13 @@
 {
+    "accesto/payum-pay-u": {
+        "version": "0.3.1"
+    },
+    "alcohol/iso4217": {
+        "version": "4.0.0"
+    },
+    "clue/stream-filter": {
+        "version": "v1.5.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -124,6 +133,15 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.4.0"
     },
+    "league/uri": {
+        "version": "6.5.0"
+    },
+    "league/uri-components": {
+        "version": "2.4.0"
+    },
+    "league/uri-interfaces": {
+        "version": "2.3.0"
+    },
     "monolog/monolog": {
         "version": "2.3.4"
     },
@@ -133,11 +151,38 @@
     "nikic/php-parser": {
         "version": "v4.13.0"
     },
+    "openpayu/openpayu": {
+        "version": "2.3.3"
+    },
+    "payum/core": {
+        "version": "1.6.2"
+    },
+    "payum/iso4217": {
+        "version": "1.0.1"
+    },
+    "payum/payum-bundle": {
+        "version": "2.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.4",
+            "ref": "518ac22defa04a8a1d82479ed362e2921487adf0"
+        },
+        "files": [
+            "./config/packages/payum.yaml"
+        ]
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
     "phar-io/version": {
         "version": "3.1.0"
+    },
+    "php-http/message": {
+        "version": "1.12.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -188,6 +233,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/link": {
         "version": "1.0.0"

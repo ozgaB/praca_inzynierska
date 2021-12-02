@@ -47,11 +47,10 @@
                       {% if admin_role in user.roles %}
                       <span class="badge badge-dark">Podgląd niedostępny<i class="fas fa-eye fa-x2 pl-2"></i></span>
                       {% else %}
-                      <a href="" class="text-dark">Pokaż <i class="fas fa-eye fa-x2 pl-2"></i></a>
+                      <a href="{{path("show_and_edit_account",{ 'user': user.id})}}" class="text-dark">Pokaż i edytuj<i class="fas fa-eye fa-x2 pl-2"></i></a>
                       {% endif %}
                       </td>
-                      <td><a href="" class="text-dark">Edytuj <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
-                      <td><a href="" class="text-dark">Usuń <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                      <td><a href="{{path("remove_account",{ 'user': user.id,'returnRoute': menu_name })}}" class="text-dark">Usuń <i class="fas fa-user-times"></i></a></td>
                     </tr>
                     {% endfor %}
                     {% endif %}

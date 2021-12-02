@@ -3,6 +3,7 @@ namespace App\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;
+use App\Exception\RedirectToBuyAccessException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,10 +21,13 @@ class AccessDeniedListener implements EventSubscriberInterface
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        if (!$exception instanceof AccessDeniedException) {
-            return;
+        if ($exception instanceof AccessDeniedException) {
+            $event->setResponse(new RedirectResponse('access_denied'));
         }
-        $event->setResponse(new RedirectResponse('access_denied'));
+        if ($exception instanceof RedirectToBuyAccessException) {
+            $event->setResponse(new RedirectResponse('buy_access'));
+        }
+        return;        
     }
 }
 ?>

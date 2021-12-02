@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "buy_access" %}
+{% use "menu_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+            <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Tu znajdują się <span class="text-success">typy subskrybcji</span> dostępne dla ciebie</h2>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <table class="table">
+                    <tr>
+                      <th>Nazwa subskrybcji</th>
+                      <th>Opis</th>
+                      <th>Okres</th>
+                      <th>Cena w EUR</th>
+                      <th>Cena w PLN</th>
+                      <th colspan="1">Akcje</th>
+                    </tr>
+                      {% if subscriptionTypeList is empty %}
+                      <tr>
+                        <td colspan="5"> Aktualnie brak typów subskrypcji</td>
+                    </tr>
+                      {% else %}
+                      {% for subscriptionType in subscriptionTypeList %}
+                      <tr>
+                        <td> {{ subscriptionType.name }} </td>
+                        <td> {{ subscriptionType.description }} </td>
+                        <td> {{ subscriptionType.lifeTime }} </td>
+                        <td> {{ subscriptionType.priceEur }} </td>
+                        <td> {{ subscriptionType.pricePln }} </td>
+                        <td><a href="{{path("add_update_subscription_action",{'user': currentTrainer.id, 'subscriptionType': subscriptionType.id })}}" class="text-dark">Wybierz i przejdź do płatności<i class="fas fa-plus"></i></a></td>
+                    </tr>
+                      {% endfor %}
+                      {% endif %}
+                    </table>
+                </div>
+            </div>
+            </div>
+            </div>
+          </div>
+{% endblock %}

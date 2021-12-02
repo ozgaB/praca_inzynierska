@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "subscription" %}
+{% use "menu_admin_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2>Tu znajdują się <span class="text-success">Trenerzy</span> oraz ich status subskrypcji</h2>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <table class="table">
+                    <tr>
+                      <th>Imię i Nazwisko</th>
+                      <th>Email</th>
+                      <th>Rozpoczęcie subskrypcji</th>
+                      <th>Wygaśnięcie subskrypcji</th>
+                      <th>Status</th>
+                      <th colspan="4">Akcje</th>
+                    </tr>
+                      {% if subscribersList is empty %}
+                      <tr>
+                        <td colspan="5"> Aktualnie brak użytkowników</td>
+                    </tr>
+                      {% else %}
+                      {% for subscriber in subscribersList %}
+                      <tr>
+                        <td> {{ subscriber.firstName }} {{ subscriber.lastName }} </td>
+                        <td> {{ subscriber.email }} </td>
+                        {% if null is same as subscriber.createdAt %}
+                        <td><span class="badge badge-dark">Brak subskrypcji</i></td>
+                        {% else %}
+                        <td> {{ subscriber.createdAt|date('d m Y') }} </td>
+                        {% endif %}
+                        {% if null is same as subscriber.expireAt %}
+                        <td><span class="badge badge-dark">Brak subskrypcji</i></td>
+                        {% else %}
+                        <td> {{ subscriber.expireAt|date('d m Y') }} </td>
+                        {% endif %}
+                        {% if subscriber.expireAt >= currentDate %}
+                        <td><span class="badge badge-success">Subskrypcja aktywna<i class="fas fa-check pl-3"></i></span></td>
+                        {% else %}
+                        <td><span class="badge badge-dark">Subskrypcja nieaktywna<i class="fas fa-times pl-3"></i></span></td>
+                        {% endif %}
+                        {% if null is same as subscriber.id %}
+                        <td><a href="{{ path("add_subscription",{'user': subscriber.idUser })}}" class="text-dark">Dodaj <i class="fas fa-plus"></i></a></td>
+                        {% else %}
+                        <td><a href="{{ path("edit_subscription",{'subscription': subscriber.id })}}" class="text-dark">Edytuj <i class="fas fa-plus"></i></a></td>
+                        <td><a href="{{ path("remove_subscription",{'subscription': subscriber.id })}}" class="text-dark">Usuń <i class="fas fa-trash-alt"></i></a></td>
+                        {% endif %}
+                    </tr>
+                      {% endfor %}
+                      {% endif %}
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}

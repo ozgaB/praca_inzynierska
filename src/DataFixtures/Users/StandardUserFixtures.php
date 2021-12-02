@@ -21,6 +21,18 @@ class StandardUserFixtures extends Fixture
     const USER_2_EMAIL = 'user123@user.pl';
     const USER_2_PASSWORD = 'user123';
 
+    const USER_3_REFERENCE = 'user-3-reference';
+    const USER_3_FIRST_NAME = 'user3';
+    const USER_3_LAST_NAME = '1233';
+    const USER_3_EMAIL = 'user1233@user.pl';
+    const USER_3_PASSWORD = 'user1233';
+
+    const USER_4_REFERENCE = 'user-4-reference';
+    const USER_4_FIRST_NAME = 'user4';
+    const USER_4_LAST_NAME = '1234';
+    const USER_4_EMAIL = 'user1234@user.pl';
+    const USER_4_PASSWORD = 'user1234';
+
     private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
@@ -63,6 +75,20 @@ class StandardUserFixtures extends Fixture
                 'email' => self::USER_2_EMAIL,
                 'password' => self::USER_2_PASSWORD,
                 'reference' => self::USER_2_REFERENCE,
+            ],
+            'User_3' => [
+                'firstName' => self::USER_3_FIRST_NAME,
+                'lastName' => self::USER_3_LAST_NAME,
+                'email' => self::USER_3_EMAIL,
+                'password' => self::USER_3_PASSWORD,
+                'reference' => self::USER_3_REFERENCE,
+            ],
+            'User_4' => [
+                'firstName' => self::USER_4_FIRST_NAME,
+                'lastName' => self::USER_4_LAST_NAME,
+                'email' => self::USER_4_EMAIL,
+                'password' => self::USER_4_PASSWORD,
+                'reference' => self::USER_4_REFERENCE,
             ],
         ];
     }

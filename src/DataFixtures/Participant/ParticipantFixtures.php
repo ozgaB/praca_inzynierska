@@ -63,12 +63,12 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
                 'reference' => self::PARTICIPANT_2_REFERENCE,
             ],
             'Participant_3' => [
-                'user' => StandardUserFixtures::USER_1_REFERENCE,
+                'user' => StandardUserFixtures::USER_3_REFERENCE,
                 'trainer' => TrainerFixtures::TRAINER_2_REFERENCE,
                 'reference' => self::PARTICIPANT_3_REFERENCE,
             ],
             'Participant_4' => [
-                'user' => StandardUserFixtures::USER_2_REFERENCE,
+                'user' => StandardUserFixtures::USER_4_REFERENCE,
                 'trainer' => TrainerFixtures::TRAINER_2_REFERENCE,
                 'reference' => self::PARTICIPANT_4_REFERENCE,
             ],

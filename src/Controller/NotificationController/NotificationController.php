@@ -5,6 +5,7 @@ use App\Repository\InvitationRepository;
 use App\Repository\ParticipantRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Utils\SubscriptionManager;
 
 class NotificationController extends AbstractController {
 
@@ -35,6 +36,19 @@ class NotificationController extends AbstractController {
             [
                 'notificationValue' => $notification,
                 'notificationName' => 'Aktualni uczestnicy',
+            ]
+            );
+    }
+
+    public function renderSubscriptionIsNearlyExpireNotificationForTrainer(ParticipantRepository $participantRepository, Security $security, SubscriptionManager $subscriptionManager)
+    {
+        $status = $subscriptionManager->isSubscriptionExpireIn3Days($security->getUser());
+
+        return $this->render(
+            'notification/subscription_expire_notification.html.twig',
+            [
+                'status' => $status,
+                'notificationName' => 'Uwaga! Twoja subskrypcja wygaśnie w najbliższych dniach',
             ]
             );
     }

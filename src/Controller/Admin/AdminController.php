@@ -9,7 +9,10 @@ use App\Entity\UserBio\UserBio;
 use App\Form\Type\UserDataType;
 use App\Utils\TrainerBioUpdater;
 use App\Form\Type\UserFilterType;
+use App\Utils\PageElementUpdater;
+use App\Form\Type\PageElementType;
 use App\Repository\UserRepository;
+use App\Utils\SubscriptionManager;
 use App\Form\Type\RegisterUserType;
 use App\Form\Type\UserPasswordType;
 use App\Utils\Filtrs\FilterManager;
@@ -18,7 +21,9 @@ use App\Entity\TrainerBio\TrainerBio;
 use App\Form\Type\UserRoleFilterType;
 use App\Repository\UserBioRepository;
 use App\Utils\AccountSecurityUpdater;
+use App\Repository\MainPageRepository;
 use App\Utils\AddressAndContactUpdater;
+use App\Entity\MainPage\MainPageElement;
 use App\Form\Type\AddressAndContactType;
 use App\Repository\InvitationRepository;
 use App\Repository\TrainerBioRepository;
@@ -63,9 +68,9 @@ class AdminController extends AbstractController
         $currentUser = $security->getUser();
         $filterForm = $this->createForm(UserFilterType::class);
         if($filterManager->getFilterForm($filterForm)){
-            $users =  $filterManager->getUserFilter($filterForm)->getQuery()->getResult();
+            $users =  $filterManager->getUserFilter($filterForm,$userRepository->getAllUserActiveQB())->getQuery()->getResult();
         } else {
-            $users = $userRepository->getAllUsersQB()->getQuery()->getResult();
+            $users = $userRepository->getAllUserActiveQB()->getQuery()->getResult();
         }
 
         return [
@@ -82,24 +87,22 @@ class AdminController extends AbstractController
      */
     public function accountAccept(Security $security, Request $request, UserRepository $userRepository, FilterManager $filterManager)
     {
-        $user = $security->getUser();
         $currentUser = $security->getUser();
         $filterForm = $this->createForm(UserFilterType::class);
         if($filterManager->getFilterForm($filterForm)){
-            $users =  $filterManager->getUserFilter($filterForm,$userRepository->getAllUserInActive())->getQuery()->getResult();
+            $users =  $filterManager->getUserFilter($filterForm,$userRepository->getAllUserInActiveQB())->getQuery()->getResult();
         } else {
-            $users = $userRepository->getAllUserInActive()->getQuery()->getResult();
+            $users = $userRepository->getAllUserInActiveQB()->getQuery()->getResult();
         }
 
         return [
-        'user' => $user,
         'usersInActive' => $users,
         'filterForm' => $filterForm->createView(),
     ];
     }
 
     /**
-     *@Route("/subscription_management", name="subscription_managemeent")
+     *@Route("/subscription_management", name="subscription_management")
      *@IsGranted("ROLE_ADMIN")
      * @Template()
      */
@@ -122,25 +125,27 @@ class AdminController extends AbstractController
     }
 
     /**
-     *@Route("/main_site_management", name="main_site_managemeent")
+     *@Route("/main_site_management", name="main_site_management")
      *@IsGranted("ROLE_ADMIN")
      * @Template()
      */
-    public function mainSiteManagement(Security $security, Request $request, UserRepository $userRepository, FilterManager $filterManager)
+    public function mainSiteManagement(MainPageRepository $pageRepository, PageElementUpdater $pageElementUpdater)
     {
-        $user = $security->getUser();
-        $currentUser = $security->getUser();
-        $filterForm = $this->createForm(UserFilterType::class);
-        if($filterManager->getFilterForm($filterForm)){
-            $users =  $filterManager->getUserFilter($filterForm)->getQuery()->getResult();
+        $pageElement = $pageRepository->getAllFromPageElement();
+        if(null !== $pageElement)
+        {
+            $formPageElement = $this->createForm(PageElementType::class, $pageElement);
         } else {
-            $users = $userRepository->getAllUsersQB()->getQuery()->getResult();
+            $pageElement = (new MainPageElement());
+            $formPageElement = $this->createForm(PageElementType::class, $pageElement);
+        }
+        if('success' === $pageElementUpdater->updatePageElement($formPageElement))
+        {
+            $this->addFlash('success', 'Brawo dane zostały pomyślnie zmienione!');
         }
 
         return [
-        'user' => $user,
-        'usersInActive' => $users,
-        'filterForm' => $filterForm->createView(),
+            'formPageElement' => $formPageElement->createView(),
     ];
     }
 
@@ -148,22 +153,26 @@ class AdminController extends AbstractController
      *@Route("/activate_account/{user}", name="activate_account")
      *@IsGranted("ROLE_ADMIN")
      **/
-    public function activateAccount(User $user,UserCRUD $userCRUD)
+    public function activateAccount(User $user,UserCRUD $userCRUD,SubscriptionManager $subscriptionManager)
     {
         if($userCRUD->setIsActiveToTrue($user)){
             $this->addFlash('success', 'Użytkownik '.$user->getFullName().' został aktywowany!');
+            if(in_array('ROLE_TRAINER',$user->getRoles()))
+            {
+                $subscriptionManager->giveTrialSubscription($user);
+            }
         }
         else{
             $this->addFlash('danger', 'Nie udało się aktywować tego użytkownika !');
         }
-        return $this->redirectToRoute('user_trainers');
+        return $this->redirectToRoute('account_accept');
     }
 
     /**
-     *@Route("/remove_account/{user}", name="remove_account")
+     *@Route("{returnRoute}/remove_account/{user}", name="remove_account")
      *@IsGranted("ROLE_ADMIN")
      **/
-    public function removeAccount(User $user,UserCRUD $userCRUD)
+    public function removeAccount(User $user,UserCRUD $userCRUD,string $returnRoute)
     {
         if($userCRUD->removeAccount($user)){
             $this->addFlash('success', 'Użytkownik '.$user->getFullName().' został usunięty!');
@@ -171,7 +180,11 @@ class AdminController extends AbstractController
         else{
             $this->addFlash('danger', 'Nie udało się aktywować tego użytkownika !');
         }
-        return $this->redirectToRoute('user_trainers');
+
+        if('account_management' === $returnRoute){
+            return $this->redirectToRoute('account_management');
+        }
+        return $this->redirectToRoute('account_accept');
     }
 
     /**
@@ -181,9 +194,9 @@ class AdminController extends AbstractController
     public function showAndEditAccountByRole(Security $security, Request $request, UserRepository $userRepository, FilterManager $filterManager,User $user)
     {
         if (in_array("ROLE_TRAINER", $user->getRoles())) {
-            return $this->redirectToRoute("show_and_edit_trainer_user",['user' => $user]);
+            return $this->redirectToRoute("show_and_edit_trainer_user",['user' => $user->getId()]);
         } else {
-            return $this->redirectToRoute("show_and_edit_standard_user",['user' => $user]);
+            return $this->redirectToRoute("show_and_edit_standard_user",['user' => $user->getId()]);
         }
     }
 

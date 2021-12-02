@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "account_management" %}
+{% set admin_role = "ROLE_ADMIN" %}
+{% set standar_user_role = "ROLE_USER" %}
+{% set trainer_role = "ROLE_TRAINER" %}
+{% use "menu_admin_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+                {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+              <div class="user_trainings_list">
+                <div class="d-flex pt-3 pr-3" style="">
+                  <a href="{{ path("account_management")}}" class="btn-sm btn-dark btn-block add_plan_btn text-center" role="button"><i class="fas fa-backward"></i>  Powrót na listę</a>
+                </div>
+            <div class="grid_panel_center">
+              <div class="user_profile">
+                <div class="text-center mt-5">
+                  <h3 class="mt-2">{{user.firstName}} {{user.lastName}}</h3> <span class="mt-1 clearfix">{{user.email}}</span>
+                  <hr class="line">
+                <div class="text-center mt-2">
+                  <h3 class="mt-2">Biogram:</h3>
+                  <hr class="line mb-2">
+                    {{ form_start(formTrainerBio, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formTrainerBio, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formTrainerBio) }}
+                    {{ form_end(formTrainerBio) }}
+                  <hr class="line mb-2">
+                  <h3 class="mt-2">Dane kontaktowe:</h3>
+                  <hr class="line">
+                    {{ form_start(formAddress, {'method': 'POST', 'attr': {'class': 'text-center'}})}}
+                      {{ form_widget(formAddress, {'attr': {'class': 'custom_inputs_add_form'}})}}
+                      {{ form_errors(formAddress) }}
+                    {{ form_end(formAddress) }}
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
+{% endblock %}

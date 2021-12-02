@@ -43,8 +43,8 @@
                       {{ role }}
                       {% endfor %}
                       </td>
-                      <td><a href="" class="text-dark">Akceptuj <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
-                      <td><a href="" class="text-dark">Usuń <i class="fas fa-eye fa-x2 pl-2"></i></a></td>
+                      <td><a href="{{path("activate_account",{ 'user': user.id })}}" class="text-dark">Akceptuj <i class="fas fa-user-check"></i></a></td>
+                      <td><a href="{{path("remove_account",{ 'user': user.id,'returnRoute': menu_name })}}" class="text-dark">Usuń <i class="fas fa-user-times"></i></a></td>
                     </tr>
                     {% endfor %}
                     {% endif %}

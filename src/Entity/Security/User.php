@@ -177,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @return  self
      */ 
-    public function setIsActive(bool $isActive = false)
+    public function setIsActive(bool $isActive)
     {
         $this->isActive = $isActive;
 

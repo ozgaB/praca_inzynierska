@@ -37,35 +37,35 @@ class DietPlanProductsType extends AbstractType
                 'productName',
                 TextType::class,
                 [
-                    'label' => 'Muscle Group',
+                    'label' => 'Product Name',
                 ]
             )
             ->add(
                 'protein',
                 IntegerType::class,
                 [
-                    'label' => 'Sets',
+                    'label' => 'Protein in grams',
                 ]
             )
             ->add(
                 'carbo',
                 IntegerType::class,
                 [
-                    'label' => 'Repetitions',
+                    'label' => 'Carbo in grams',
                 ]
             )
             ->add(
                 'fat',
                 IntegerType::class,
                 [
-                    'label' => 'Exercise Time',
+                    'label' => 'Fat in grams',
                 ]
             )
             ->add(
                 'kcl',
                 IntegerType::class,
                 [
-                    'label' => 'Exercise Break',
+                    'label' => 'Kcl',
                 ]
             )
         ;

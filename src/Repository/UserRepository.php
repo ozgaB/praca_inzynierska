@@ -98,6 +98,44 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb->getQuery()->getResult();
     }
 
+    public function getTrainerSubscription(int $idTrainer)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb
+        ->select([
+            'user.id',
+        ])
+        ->from('App\Entity\Security\User','user')
+        ->innerJoin('App\Entity\Subscription\Subscription','subscription',Join::WITH,$qb->expr()->eq('user.id',$idTrainer))
+        ->groupBy('user.id');
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function getTrainersSubscriptionStatus()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb
+        ->select([
+            'Subscription.id AS id',
+            'User.id AS idUser',
+            'Subscription.idTrainer AS idTrainer',
+            'Subscription.createdAt AS createdAt',
+            'Subscription.expireAt AS expireAt',
+            'User.firstName AS firstName',
+            'User.lastName AS lastName',
+            'User.email AS email'
+        ])
+        ->from('App\Entity\Security\User','User')
+        ->leftJoin('App\Entity\Subscription\Subscription','Subscription',Join::WITH,$qb->expr()->eq('User.id','Subscription.idTrainer'))
+        ->where($qb->expr()->eq('User.roles',':role_trainer'))
+        ->setParameter(':role_trainer','["ROLE_TRAINER"]');
+
+        return $qb->getQuery()->getResult();
+    }
+
     
     // FILTERS
 
@@ -154,12 +192,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $qb;
     }
 
-    public function getAllUserInActive()
+    public function getAllUserInActiveQB()
     {
         $qb = $this->getAllUsersQB();
         $qb
         ->andWhere($qb->expr()->like('user.isActive',':is_active'))
         ->setParameter(':is_active',false);
+
+        return $qb;
+    }
+
+    public function getAllUserActiveQB()
+    {
+        $qb = $this->getAllUsersQB();
+        $qb
+        ->andWhere($qb->expr()->like('user.isActive',':is_active'))
+        ->setParameter(':is_active',true);
 
         return $qb;
     }

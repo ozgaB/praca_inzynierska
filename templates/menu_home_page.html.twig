@@ -16,11 +16,15 @@
               {% endif %} 
               </div>
               <div class="nav-link">
+              {% if is_granted('ROLE_ADMIN')%}
+                <a href="{{ path("admin_home_page")}}">{{('menu.profile')|trans}}</a>
+              {% else %}
               {% if is_granted('ROLE_USER') %}
                 <a href="{{ path("user_home_page")}}">{{('menu.profile')|trans}}</a>
               {% endif %}
               {% if is_granted('ROLE_TRAINER') %}
                 <a href="{{ path("trainer_home_page")}}">{{('menu.profile')|trans}}</a>
+              {% endif %}
               {% endif %}
               </div>
               <div class="nav-link">

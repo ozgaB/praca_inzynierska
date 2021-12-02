@@ -437,6 +437,15 @@ background: var(--menu-color);
       grid-row-gap: 20px;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
+  .grid_panel_small{
+    padding: 30px 50px 30px 50px;
+    max-height: 250px;
+    width: 100%;
+    display: grid;
+    grid-column-gap: 10px;
+    grid-row-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
   .grid_panel_center{
       padding: 30px 50px 30px 50px;
       min-height: 550px;
@@ -823,6 +832,17 @@ text-decoration: none;
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
 }
+.user_actual_sub{
+  width: 100%;
+  max-height: 200px;
+  height: auto;
+  background-color: var(--white-color);
+  box-shadow: 10px 5px 5px black;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
 @media(max-width:460px){
   .actual_trainer{
     height: auto !important;
@@ -928,4 +948,10 @@ text-align: center;
 }
 .default_form_label{
   font-weight: 500;
+}
+.line_height_1_2{
+  line-height: 1.2!important;
+}
+.notification_li{
+  width:auto!important;
 }
