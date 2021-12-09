@@ -29,7 +29,7 @@ class PaymentPayU
         $order['continueUrl'] = 'http://localhost'.dirname($_SERVER['REQUEST_URI']).'/../../layout/success.php';
 
         $order['customerIp'] = '127.0.0.1';
-        $order['merchantPosId'] = OpenPayU_Configuration::getOauthClientId() ? \OpenPayU_Configuration::getOauthClientId() : \OpenPayU_Configuration::getMerchantPosId();
+        $order['merchantPosId'] = \OpenPayU_Configuration::getOauthClientId() ? \OpenPayU_Configuration::getOauthClientId() : \OpenPayU_Configuration::getMerchantPosId();
         $order['description'] = 'New order';
         $order['currencyCode'] = 'PLN';
         $order['totalAmount'] = 3200;

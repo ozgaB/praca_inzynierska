@@ -150,7 +150,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     *@Route("/activate_account/{user}", name="activate_account")
+     *@Route("/activate_account/{user}", name="activate_account" , requirements={"user"="\d+"})
      *@IsGranted("ROLE_ADMIN")
      **/
     public function activateAccount(User $user,UserCRUD $userCRUD,SubscriptionManager $subscriptionManager)
@@ -178,7 +178,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Użytkownik '.$user->getFullName().' został usunięty!');
         }
         else{
-            $this->addFlash('danger', 'Nie udało się aktywować tego użytkownika !');
+            $this->addFlash('danger', 'Nie udało się usunąć tego użytkownika !');
         }
 
         if('account_management' === $returnRoute){

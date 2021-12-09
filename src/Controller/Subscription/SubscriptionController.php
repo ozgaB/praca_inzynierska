@@ -42,7 +42,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     *@Route("/edit_subscription/{subscription}", name="edit_subscription")
+     *@Route("/edit_subscription/{subscription}", name="edit_subscription", requirements={"subscription"="\d+"})
      *@IsGranted("ROLE_ADMIN")
      *@Template()
      */
@@ -60,7 +60,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     *@Route("/add_subscription/{user}", name="add_subscription")
+     *@Route("/add_subscription/{user}", name="add_subscription", requirements={"user"="\d+"})
      *@IsGranted("ROLE_ADMIN")
      *@Template()
      */
@@ -81,7 +81,7 @@ class SubscriptionController extends AbstractController
     }
 
     /**
-     *@Route("/remove_subscription/{subscription}", name="remove_subscription")
+     *@Route("/remove_subscription/{subscription}", name="remove_subscription", requirements={"subscription"="\d+"})
      *@IsGranted("ROLE_ADMIN")
      */
     public function removeSubscription(Subscription $subscription,SubscriptionManager $subscriptionManager)
