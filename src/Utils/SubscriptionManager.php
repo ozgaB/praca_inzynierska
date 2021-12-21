@@ -130,4 +130,36 @@ class SubscriptionManager
         }
         return false;
     }
+
+    public function updateSubscriptionExpireAt(User $user,int $lifeTime)
+    {
+        if (null !== $subscription = $this->subscriptionRepository->findOneBy(['idTrainer' => $user->getId()])) {
+            $expireAt = $subscription->getExpireAt();
+            $subscription->setExpireAt($this->updateExpireAtDateTimeAddingLifeTime($lifeTime,$expireAt));
+            try {
+                $this->entityManager->persist($subscription);
+                $this->entityManager->flush();
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
+            }
+        } else {
+            $subscription = new Subscription();
+            $subscription->setIdTrainer($user->getId());
+            $subscription->setCreatedAt(new DateTime("now"));
+            $subscription->setExpireAt($this->getExpireAtDateTime($lifeTime));
+            try {
+                $this->entityManager->persist($subscription);
+                $this->entityManager->flush();
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
+
+    public function updateExpireAtDateTimeAddingLifeTime(int $lifeTime, DateTime $expireAt)
+    {
+        $expireAt->modify("+{$lifeTime} seconds");
+
+        return $expireAt;
+    }
 }

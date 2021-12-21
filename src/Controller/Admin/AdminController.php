@@ -8,6 +8,7 @@ use App\Form\Type\UserBioType;
 use App\Entity\UserBio\UserBio;
 use App\Form\Type\UserDataType;
 use App\Utils\TrainerBioUpdater;
+use App\Form\Type\TrainerBioType;
 use App\Form\Type\UserFilterType;
 use App\Utils\PageElementUpdater;
 use App\Form\Type\PageElementType;

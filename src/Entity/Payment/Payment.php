@@ -27,14 +27,14 @@ class Payment
     private $id;
     
     /**
-     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Column(type="integer", unique=false) 
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="id", referencedColumnName="idTrainer")
      */
     private $idUser;
 
     /**
-     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Column(type="integer", unique=false)
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="id", referencedColumnName="idTrainer")
      */
@@ -44,6 +44,11 @@ class Payment
      * @ORM\Column(type="string")
      */
      private $status;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $idOrder;
 
     /**
      * Get the value of id
@@ -144,5 +149,25 @@ class Payment
 
           return $this;
      }
+
+    /**
+     * Get the value of idOrder
+     */ 
+    public function getIdOrder()
+    {
+        return $this->idOrder;
+    }
+
+    /**
+     * Set the value of idOrder
+     *
+     * @return  self
+     */ 
+    public function setIdOrder($idOrder)
+    {
+        $this->idOrder = $idOrder;
+
+        return $this;
+    }
 }
 ?>

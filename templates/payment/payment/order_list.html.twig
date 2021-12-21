@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+{% set menu_name = "payment" %}
+{% use "menu_trainer_home_page.html.twig" %}
+{% block content %}
+        <div class="background" id="background">
+        {% include "flash_messages.html.twig" %}
+        <div class="main_content">
+          <div class="center_content">
+            <div class="grid_panel">
+            <div class="user_trainings_list">
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <h2 class="ml-5">Tu znajdują się wszystkie twoje<span class="text-success"> aktualne zamówienia i płatności</span></h2>
+                </div>
+                <div class="row text-center pt-4 pl-4 pr-4 pb-4">
+                  <table class="table">
+                    <tr>
+                      <th>Id zamówienia</th>
+                      <th>Status zamówienia</th>
+                      <th>Nazwa subskrypcji</th>
+                      <th>Opis</th>
+                      <th>Cena w PLN</th>
+                      <th colspan="2">Akcje</th>
+                    </tr>
+                      {% if orders is empty %}
+                      <tr>
+                        <td colspan="5"> Aktualnie brak zamówień</td>
+                    </tr>
+                      {% else %}
+                      {% for order in orders %}
+                      <tr>
+                      {% if order.idOrder is null %}
+                        <td><span class="badge badge-dark">Zamówienie nie doszło do skutku</span></td>
+                      {% else %}
+                        <td> {{ order.idOrder }} </td>
+                      {% endif %}
+                        <td> {{ order.paymentStatus }} </td>
+                        <td> {{ order.subscriptionTypeName }} </td>
+                        <td> {{ order.subscriptionTypeDescription }} </td>
+                        <td> {{ order.subscriptionTypePricePln }} </td>
+                        <td><a href="{{path("cancel_order",{'payment': order.idPayment })}}" class="text-dark">Anuluj zamówienie<i class="fas fa-plus"></i></a></td>
+                        <td><a href="{{path("make_order",{'user': order.idUser, 'subscriptionType': order.idSubscriptionType })}}" class="text-dark">Ponów Płatność<i class="fas fa-plus"></i></a></td>
+                    </tr>
+                      {% endfor %}
+                      {% endif %}
+                    </table>
+                </div>
+            </div>
+            </div>
+            </div>
+          </div>
+{% endblock %}
